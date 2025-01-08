@@ -1,7 +1,6 @@
 # 02476_FinalProject_Group20
 
 ## Notes to us (To be deleted)
-
 Reproducibility criterias:
   * Use Version Control
   * Use templates
