@@ -11,3 +11,7 @@ Reproducibility criterias:
   * Document your code
     * Sections in README file documenting how to use and run
     * Sections TBD
+  * Test your code
+    * More on this to come 
+  * Containerize your code
+    * This is done with the Docker module
