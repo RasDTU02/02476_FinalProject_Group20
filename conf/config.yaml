@@ -1,5 +1,0 @@
-#config.yaml
-#Here, the hyperparameters are defined
-
-hyperparameters:
-  example: 1
