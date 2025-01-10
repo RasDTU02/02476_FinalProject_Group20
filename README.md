@@ -1,17 +1,10 @@
 # 02476_FinalProject_Group20
 
-## Notes to us (To be deleted)
+## Project Description
+### Overall goal of the project
 
-Reproducibility criterias:
-  * Use Version Control
-  * Use templates
-    * Structuring of folders and files 
-  * Write down your dependencies, and use virtual enviroments
-    * Write a requirements.txt file
-  * Document your code
-    * Sections in README file documenting how to use and run
-    * Sections TBD
-  * Test your code
-    * More on this to come 
-  * Containerize your code
-    * This is done with the Docker module
+### What framework are you going to use, and you do you intend to include the framework into your project?
+
+### What data are you going to run on
+
+### What models do you expect to use
