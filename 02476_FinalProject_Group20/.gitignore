@@ -1,3 +1,6 @@
+# General Data Exclusions
+data/
+
 docs/site/
 
 # test cache
