@@ -2,8 +2,10 @@ import os
 import torch
 from torch import nn, optim
 from torch.utils.data import DataLoader
-from model import RiceDataset, MLOPSModel
+from model import MLOPSModel
 from torchvision import transforms as T
+from data import RiceDataset
+
 
 def train(
     root_dir="data/archive/Rice_Image_Dataset",
@@ -11,24 +13,38 @@ def train(
     epochs=10,
     lr=1e-3,
     resize=(128, 128),
-    save_path="model.pth",
+    save_path="model_parameters/model.pth",
+    model=MLOPSModel(),
 ):
-    """Train the rice classification model."""
+    """
+    Train the rice classification model.
+
+    Args:
+        model (nn.Module): The model to train.
+        dataloader_train (DataLoader): DataLoader for training data.
+        criterion (nn.Module): Loss function.
+        optimizer (optim.Optimizer): Optimizer for updating model weights.
+        num_epochs (int): Number of training epochs.
+        device (torch.device): Device to run the training on (e.g., 'cuda' or 'cpu').
+        save_path (str): Path to save the trained model.
+    """
     # Device setup
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Transformations and dataset
-    transform = T.Compose([
-        T.Resize(resize),
-        T.ToTensor(),
-        T.Normalize(mean=[0.5], std=[0.5]),
-    ])
+    transform = T.Compose(
+        [
+            T.Resize(resize),
+            T.ToTensor(),
+            T.Normalize(mean=[0.5], std=[0.5]),
+        ]
+    )
 
     dataset = RiceDataset(root_dir=root_dir, transform=transform)
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
     # Model, loss function, and optimizer
-    model = MLOPSModel().to(device)
+    model = model.to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=lr)
 
@@ -37,6 +53,8 @@ def train(
         model.train()
         running_loss = 0.0
 
+        correct = 0
+        total = 0
         for inputs, labels in dataloader:
             inputs, labels = inputs.to(device), labels.to(device)
 
@@ -49,7 +67,15 @@ def train(
             loss.backward()
             optimizer.step()
 
+            _, predicted = torch.max(outputs, 1)
+            correct += (predicted == labels).sum().item()
+            total += labels.size(0)
             running_loss += loss.item() * inputs.size(0)
+
+        accuracy = correct / total
+        print(
+            f"Epoch {epoch + 1}/{epochs}, Loss: {epoch_loss:.4f}, Accuracy: {accuracy:.4f}"
+        )
 
         epoch_loss = running_loss / len(dataloader.dataset)
         print(f"Epoch {epoch + 1}/{epochs}, Loss: {epoch_loss:.4f}")
@@ -58,5 +84,6 @@ def train(
     torch.save(model.state_dict(), save_path)
     print(f"Model saved to {save_path}")
 
-if _name_ == "_main_":
+
+if __name__ == "_main_":
     train()
