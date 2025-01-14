@@ -1,105 +1,69 @@
-from pathlib import Path
-
-import typer
-from torch.utils.data import Dataset
-
+from __future__ import annotations
 
 import os
+import requests
+import zipfile
 import random
 from pathlib import Path
-from PIL import Image
-import torch
-from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms as T
-from typing import Optional, Tuple, List
+from tqdm import tqdm
+from shutil import copy2
 
+RAW_DATA_PATH = Path("data/raw")
+PROCESSED_DATA_PATH = Path("data/processed")
+ZIP_PATH = RAW_DATA_PATH / "rice_dataset.zip"
+DOWNLOAD_URL = "https://www.muratkoklu.com/datasets/vtdhnd09.php"
 
-class RiceDataset(Dataset):
-    """Custom dataset for rice classification."""
+def download_rice_dataset():
+    """Download the rice dataset zip file with a progress bar if it doesn't already exist."""
+    if ZIP_PATH.exists():
+        print("Zip file already exists. Skipping download.")
+        return
 
-    def __init__(
-        self,
-        root_dir: str ="data/archive/Rice_Image_Dataset",
-        transform: Optional[T.compose]=None,
-        subset: int = None,
-        resize: tuple = (128, 128),
-    ):
-        """
-        Initialize the dataset.
+    print("Downloading the dataset...")
+    response = requests.get(DOWNLOAD_URL, stream=True)
+    total_size = int(response.headers.get("content-length", 0))
 
-        Args:
-            root_dir (str): Path to the root directory containing the class folders.
-            transform (callable, optional): Transformation to apply to images. Defaults to None.
-            subset (int, optional): Number of total samples to load (evenly distributed across classes). Defaults to None.
-            resize (tuple): Desired dimensions (width, height) to resize the images. Defaults to (128, 128).
-        """
-        self.root_dir = root_dir
-        self.transform = transform or T.Compose(
-            [T.Resize(resize), T.ToTensor(), T.Normalize(mean=[0.5], std=[0.5])]
-        )
-        self.subset = subset
-        self.resize = resize
-        self.samples = []
-        self.class_to_idx = {}
-        self._load_dataset()
+    with open(ZIP_PATH, "wb") as f, tqdm(
+        desc="Downloading", total=total_size, unit="B", unit_scale=True, unit_divisor=1024
+    ) as bar:
+        for data in response.iter_content(chunk_size=1024):
+            f.write(data)
+            bar.update(len(data))
 
-    def _load_dataset(self):
-        """Load dataset samples and optionally subset data."""
-        # Map class names to indices and load samples
-        for idx, class_name in enumerate(sorted(os.listdir(self.root_dir))):
-            class_path = os.path.join(self.root_dir, class_name)
-            if os.path.isdir(class_path):
-                self.class_to_idx[class_name] = idx
-                class_samples = [
-                    os.path.join(class_path, fname)
-                    for fname in os.listdir(class_path)
-                    if fname.endswith(".jpg")
-                ]
+    print(f"Dataset downloaded to {ZIP_PATH}")
 
-                # Subsample evenly from each class if subset is provided
-                if self.subset:
-                    per_class_count = self.subset // len(self.class_to_idx)
-                    class_samples = random.sample(
-                        class_samples, min(per_class_count, len(class_samples))
-                    )
+def extract_and_sample_data(sample_ratio: float = 0.1): # 10% of the data is sampled
+    """Extract the dataset and sample a fraction of images for faster processing if not already done."""
+    dataset_path = RAW_DATA_PATH / "Rice_Image_Dataset"
+    if dataset_path.exists() and (PROCESSED_DATA_PATH / "Rice_Image_Dataset").exists():
+        print("Dataset already extracted and sampled. Skipping extraction and sampling.")
+        return
 
-                self.samples.extend([(sample, idx) for sample in class_samples])
+    if not dataset_path.exists():
+        if ZIP_PATH.exists():
+            print("Extracting the dataset...")
+            with zipfile.ZipFile(ZIP_PATH, "r") as zip_ref:
+                zip_ref.extractall(RAW_DATA_PATH)
+            print("Extraction complete.")
+        else:
+            print("Zip file not found. Please download the dataset first.")
+            return
 
-    def __len__(self):
-        """Return the length of the dataset."""
-        return len(self.samples)
+    print("Sampling images...")
+    for class_folder in dataset_path.iterdir():
+        if class_folder.is_dir():
+            images = list(class_folder.glob("*.png")) + list(class_folder.glob("*.jpg"))
+            sampled_images = random.sample(images, max(1, int(len(images) * sample_ratio)))
 
-    def __getitem__(self, index):
-        """Return a given sample from the dataset."""
-        img_path, label = self.samples[index]
-        image = Image.open(img_path).convert("RGB")
+            dest_class_folder = PROCESSED_DATA_PATH / "Rice_Image_Dataset" / class_folder.name
+            dest_class_folder.mkdir(parents=True, exist_ok=True)
 
-        if self.transform:
-            image = self.transform(image)
+            for img_path in sampled_images:
+                copy2(img_path, dest_class_folder)
 
-        return image, label
-
+    print("Sampling and processing complete.")
 
 if __name__ == "__main__":
-    # Example usage
-    root_dir = "data/archive/Rice_Image_Dataset"
-    resize = (64, 64)  # Change to (128, 128) or other dimensions as needed
-    subset = 100  # Total number of samples to load (evenly split across classes)
-
-    transform = T.Compose(
-        [T.Resize(resize), T.ToTensor(), T.Normalize(mean=[0.5], std=[0.5])]
-    )
-
-    # Load the dataset with optional resizing and subsampling
-    dataset = RiceDataset(
-        root_dir=root_dir, transform=transform, subset=subset, resize=resize
-    )
-
-    # Create a DataLoader
-    dataloader = DataLoader(dataset, batch_size=16, shuffle=True)
-
-    # Inspect dataset
-    for images, labels in dataloader:
-        print(f"Batch images shape: {images.shape}")
-        print(f"Batch labels: {labels}")
-        break
+    download_rice_dataset()
+    extract_and_sample_data(sample_ratio=0.1)
+    print("Data preparation complete.")
