@@ -23,3 +23,7 @@ In this project, we expect to use pre-traied models, in order to successfully ma
 * VGG
   * Simple and effective, but computationally expensive
   * Is good as a benchmark when compared to more modern architectures.
+
+
+# Third-party Python libraries not used in the course
+ - tqdm for progress bar.

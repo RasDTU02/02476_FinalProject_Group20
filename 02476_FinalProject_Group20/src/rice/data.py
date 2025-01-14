@@ -1,3 +1,4 @@
+# data.py
 from __future__ import annotations
 
 import os
@@ -6,7 +7,7 @@ import zipfile
 import random
 from pathlib import Path
 from tqdm import tqdm
-from shutil import copy2
+from shutil import move
 
 RAW_DATA_PATH = Path("data/raw")
 PROCESSED_DATA_PATH = Path("data/processed")
@@ -32,11 +33,13 @@ def download_rice_dataset():
 
     print(f"Dataset downloaded to {ZIP_PATH}")
 
-def extract_and_sample_data(sample_ratio: float = 0.1): # 10% of the data is sampled
+def extract_and_sample_data(sample_ratio: float = 0.001):  # Only sample 1% of the data
     """Extract the dataset and sample a fraction of images for faster processing if not already done."""
     dataset_path = RAW_DATA_PATH / "Rice_Image_Dataset"
-    if dataset_path.exists() and (PROCESSED_DATA_PATH / "Rice_Image_Dataset").exists():
-        print("Dataset already extracted and sampled. Skipping extraction and sampling.")
+    processed_path = PROCESSED_DATA_PATH / "Rice_Image_Dataset"
+
+    if processed_path.exists():
+        print("Processed data already exists. Skipping extraction and sampling.")
         return
 
     if not dataset_path.exists():
@@ -50,20 +53,20 @@ def extract_and_sample_data(sample_ratio: float = 0.1): # 10% of the data is sam
             return
 
     print("Sampling images...")
-    for class_folder in dataset_path.iterdir():
+    for class_folder in tqdm(dataset_path.iterdir(), desc="Sampling classes"):
         if class_folder.is_dir():
             images = list(class_folder.glob("*.png")) + list(class_folder.glob("*.jpg"))
             sampled_images = random.sample(images, max(1, int(len(images) * sample_ratio)))
 
-            dest_class_folder = PROCESSED_DATA_PATH / "Rice_Image_Dataset" / class_folder.name
+            dest_class_folder = processed_path / class_folder.name
             dest_class_folder.mkdir(parents=True, exist_ok=True)
 
             for img_path in sampled_images:
-                copy2(img_path, dest_class_folder)
+                move(img_path, dest_class_folder)
 
     print("Sampling and processing complete.")
 
 if __name__ == "__main__":
     download_rice_dataset()
-    extract_and_sample_data(sample_ratio=0.1)
+    extract_and_sample_data(sample_ratio=0.01)
     print("Data preparation complete.")
