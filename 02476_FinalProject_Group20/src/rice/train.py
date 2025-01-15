@@ -4,7 +4,7 @@ import torch.optim as optim
 import torch.nn as nn
 from torch.utils.data import DataLoader
 from torchvision import transforms
-from model import get_pretrained_model
+from .model import get_pretrained_model
 from pathlib import Path
 from tqdm import tqdm
 import os
@@ -113,6 +113,9 @@ def train_model(max_images: int = None):
     torch.save(model.state_dict(), model_path)
     print(f"Model saved as {model_path}")
 
-if __name__ == "__main__":
+def main():
     # Brug x billeder pr. klasse til træning/test
     train_model(max_images=20)
+
+if __name__ == "__main__":
+    main()

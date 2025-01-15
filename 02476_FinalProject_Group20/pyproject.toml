@@ -7,7 +7,7 @@ name = "rice"
 version = "0.0.1"
 description = "A project for implementation of MLOps best practices, to deploy a classification model that classifies different types of rice."
 authors = [
-  { name = "Alexander Guldager, Bj\u00f8rn Sch\u00f8nbech M\u00f8ller, Rasmus N\u00f8rgaard Jensen", email = "your@email.com" },
+  { name = "Alexander Guldager, Bjørn Schönbech Møller, Rasmus Nørgaard Jensen", email = "your@email.com" },
 ]
 license = { file = "LICENSE" }
 keywords = ["machine learning", "MLOps"]
@@ -30,3 +30,6 @@ line-length = 120
 
 [tool.coverage.run]
 omit = ["tests/*"]
+
+[project.scripts]
+train = "rice.train:main"
