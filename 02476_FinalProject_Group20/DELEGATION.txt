@@ -11,7 +11,7 @@ Project Initialization BJØRN
 Task 4: Create the initial file structure using cookiecutter with an appropriate template (M6).
 Task 5: Fill out the data.py file to download and preprocess data (if necessary) (M6).
 Task 6: Add a model to model.py and a training procedure to train.py (M6).
-Task 7: Fill out requirements.txt and requirements_dev.txt (M2+M6).
+Task 7: Fill out requirements.txt and requirements_dev.txt (M2+M6). GØRES TIL SIDST.
 
 Code and Good Practices ALEXANDER
 Task 8: Comply with good coding practices (pep8) (M7).
