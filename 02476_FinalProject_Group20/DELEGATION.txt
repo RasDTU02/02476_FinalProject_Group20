@@ -1,16 +1,16 @@
 Categorized Tasks:
 
 Version Control and Environment Setup  RASMUS
-Task 1: Create a Git repository (M5).
-Task 2: Ensure all team members have write access to the GitHub repository (M5).
-Task 3: Create a dedicated environment for the project to track packages (M2).
+Task 1: Create a Git repository (M5). DONE
+Task 2: Ensure all team members have write access to the GitHub repository (M5). DONE
+Task 3: Create a dedicated environment for the project to track packages (M2). (Det gør vi hver især på vores computere, eller?)
 Task 10: Set up version control for your data or part of your data (M8).
 Task 27: Add pre-commit hooks to your version control setup (M18).
 
 Project Initialization BJØRN
-Task 4: Create the initial file structure using cookiecutter with an appropriate template (M6).
-Task 5: Fill out the data.py file to download and preprocess data (if necessary) (M6).
-Task 6: Add a model to model.py and a training procedure to train.py (M6).
+Task 4: Create the initial file structure using cookiecutter with an appropriate template (M6). DONE
+Task 5: Fill out the data.py file to download and preprocess data (if necessary) (M6). DONE
+Task 6: Add a model to model.py and a training procedure to train.py (M6). DONE
 Task 7: Fill out requirements.txt and requirements_dev.txt (M2+M6). GØRES TIL SIDST.
 
 Code and Good Practices ALEXANDER
@@ -20,7 +20,7 @@ Task 24: Set up continuous integration on GitHub (M17).
 Task 26: Add a linting step to your continuous integration (M17).
 
 Command Line Interface and Automation ALEXANDER
-Task 11: Add command-line interfaces and project commands where relevant (M9).
+Task 11: Add command-line interfaces and project commands where relevant (M9). DONE
 Task 28: Add a workflow that triggers when data changes (M19).
 Task 29: Add a workflow that triggers on changes to the model registry (M19).
 
@@ -30,8 +30,8 @@ Task 13: Build and validate Dockerfiles locally (M10).
 Task 34: Deploy the model in GCP using Functions or Run as backend (M23).
 
 Experiment Management and Logging BJØRN
-Task 14: Write configuration files for experiments (M11).
-Task 15: Use Hydra to manage hyperparameters (M11).
+Task 14: Write configuration files for experiments (M11). DONE
+Task 15: Use Hydra to manage hyperparameters (M11). DONE
 Task 17: Use logging to record important events (M14).
 Task 18: Use Weights & Biases for training progress (M14).
 Task 19: Consider running a hyperparameter optimization sweep (M14).
