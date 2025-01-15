@@ -1,0 +1,5 @@
+defaults:
+  - model_conf: default
+  - training_conf: default
+
+seed: 42

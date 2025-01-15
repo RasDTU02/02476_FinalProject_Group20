@@ -1,4 +1,5 @@
-# train.py
+import hydra
+from omegaconf import DictConfig, OmegaConf
 import torch
 import torch.optim as optim
 import torch.nn as nn
@@ -9,17 +10,66 @@ from pathlib import Path
 from tqdm import tqdm
 import os
 from PIL import Image
-
 from datetime import datetime
-from pathlib import Path
 
-# Define paths
-PROCESSED_DATA_PATH = Path("data/raw/Rice_Image_Dataset")
+def set_seed(seed):
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
+@hydra.main(config_path="configs", config_name="config", version_base=None)
+def train_model(cfg: DictConfig):
+    # Sæt seed for reproducerbarhed
+    set_seed(cfg.seed)
+    
+    # Load data
+    train_loader, test_loader = load_data(max_images=cfg.training_conf.max_images)
+    
+    # Get model
+    model = get_pretrained_model(num_classes=cfg.model_conf.num_classes)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device)
+    
+    # Define loss function and optimizer
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(model.parameters(), lr=cfg.training_conf.learning_rate)
+    
+    # Training loop
+    for epoch in range(cfg.training_conf.num_epochs):
+        running_loss = 0.0
+        model.train()
+        for images, labels in tqdm(train_loader, desc=f"Epoch {epoch+1}/{cfg.training_conf.num_epochs}"):
+            images, labels = images.to(device), labels.to(device)
+            
+            optimizer.zero_grad()
+            outputs = model(images)
+            loss = criterion(outputs, labels)
+            loss.backward()
+            optimizer.step()
+            
+            running_loss += loss.item()
+        
+        print(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
+    
+    print("Training complete.")
+    
+    # Save model
+    models_path = Path("models")
+    models_path.mkdir(exist_ok=True)
+    
+    now = datetime.now()
+    run_folder = now.strftime("%Y%m%d_%H%M%S")
+    run_path = models_path / run_folder
+    run_path.mkdir(parents=True, exist_ok=True)
+    
+    model_path = run_path / "rice_model.pth"
+    torch.save(model.state_dict(), model_path)
+    print(f"Model saved as {model_path}")
 
 def load_data(max_images: int = None):
     """Load processed JPG images and optionally limit the number of images."""
-    if not PROCESSED_DATA_PATH.exists():
-        raise FileNotFoundError(f"Processed data path '{PROCESSED_DATA_PATH}' does not exist.")
+    if not Path("data/raw/Rice_Image_Dataset").exists():
+        raise FileNotFoundError(f"Processed data path 'data/raw/Rice_Image_Dataset' does not exist.")
 
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
@@ -33,7 +83,7 @@ def load_data(max_images: int = None):
     test_labels = []
 
     # Filtrér kun mapper som ikke er tekstfiler eller skjulte filer
-    class_dirs = [d for d in PROCESSED_DATA_PATH.iterdir() if d.is_dir() and not d.name.startswith('.')]
+    class_dirs = [d for d in Path("data/raw/Rice_Image_Dataset").iterdir() if d.is_dir() and not d.name.startswith('.')]
     
     for class_idx, class_dir in enumerate(class_dirs):
         print(f"Processing class {class_idx}: {class_dir.name}")
@@ -67,55 +117,8 @@ def load_data(max_images: int = None):
 
     return DataLoader(train_set, batch_size=32, shuffle=True), DataLoader(test_set, batch_size=32, shuffle=False)
 
-
-def train_model(max_images: int = None):
-    """Train the pre-trained model on the rice dataset."""
-    train_loader, test_loader = load_data(max_images=max_images)
-    model = get_pretrained_model(num_classes=5)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model.to(device)
-    
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
-    
-    num_epochs = 2
-    model.train()
-    
-    for epoch in range(num_epochs):
-        running_loss = 0.0
-        for images, labels in tqdm(train_loader, desc=f"Epoch {epoch+1}/{num_epochs}"):
-            images, labels = images.to(device), labels.to(device)
-            
-            optimizer.zero_grad()
-            outputs = model(images)
-            loss = criterion(outputs, labels)
-            loss.backward()
-            optimizer.step()
-            
-            running_loss += loss.item()
-        
-        print(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
-    
-    print("Training complete.")
-    
-    # Opret stien til models mappen
-    models_path = Path("models")
-    models_path.mkdir(exist_ok=True)
-    
-    # Opret en undermappe med dato og tid for denne kørsel
-    now = datetime.now()
-    run_folder = now.strftime("%Y%m%d_%H%M%S")
-    run_path = models_path / run_folder
-    run_path.mkdir(parents=True, exist_ok=True)
-    
-    # Gem modellen i den nye mappe
-    model_path = run_path / "rice_model.pth"
-    torch.save(model.state_dict(), model_path)
-    print(f"Model saved as {model_path}")
-
 def main():
-    # Brug x billeder pr. klasse til træning/test
-    train_model(max_images=20)
+    train_model()
 
 if __name__ == "__main__":
     main()
