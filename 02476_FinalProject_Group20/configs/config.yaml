@@ -1,5 +1,4 @@
+# configs/config.yaml
 defaults:
   - model_conf: default
-  - training_conf: default
-
-seed: 42
+  - training_c

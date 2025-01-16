@@ -1,4 +1,3 @@
-max_images: 20
+# configs/training_conf/default.yaml
 batch_size: 32
-learning_rate: 0.001
-num_epochs: 2
+learning_rat
