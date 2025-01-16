@@ -1,1 +1,2 @@
-# configs/mode
+# configs/model_conf/default.yaml
+num_classes: 5

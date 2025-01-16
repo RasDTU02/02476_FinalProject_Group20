@@ -34,7 +34,7 @@ def train_model(cfg: DictConfig):
     set_seed(cfg.seed)
     
     # Load data
-    train_loader, test_loader = load_data(max_images=cfg.training_conf.max_images)
+    train_loader, test_loader = load_data(cfg)
     
     # Get model
     model = get_pretrained_model(num_classes=cfg.model_conf.num_classes)
@@ -85,7 +85,7 @@ def train_model(cfg: DictConfig):
     print(f"Full model saved as {model_path_full}")
     log.info(f"Full model saved as {model_path_full}")
 
-def load_data(max_images: int = None):
+def load_data(cfg: DictConfig):
     """Load processed JPG images and optionally limit the number of images."""
     if not Path("data/raw/Rice_Image_Dataset").exists():
         raise FileNotFoundError(f"Processed data path 'data/raw/Rice_Image_Dataset' does not exist.")
@@ -113,8 +113,8 @@ def load_data(max_images: int = None):
             log.warning(f"Warning: No images found in {class_dir}")
             continue
 
-        if max_images:
-            images = images[:max_images]  # Begræns antallet af billeder pr. klasse
+        if cfg.training_conf.max_images:
+            images = images[:cfg.training_conf.max_images]  # Begræns antallet af billeder pr. klasse
 
         split_idx = int(0.8 * len(images))  # 80% train, 20% test
         for i, img_path in enumerate(images):
@@ -138,6 +138,7 @@ def load_data(max_images: int = None):
     train_set = torch.utils.data.TensorDataset(torch.stack(train_data), torch.tensor(train_labels))
     test_set = torch.utils.data.TensorDataset(torch.stack(test_data), torch.tensor(test_labels))
 
+    # Brug batch_size fra konfigurationen
     return DataLoader(train_set, batch_size=cfg.training_conf.batch_size, shuffle=True), DataLoader(test_set, batch_size=cfg.training_conf.batch_size, shuffle=False)
 
 def main():
