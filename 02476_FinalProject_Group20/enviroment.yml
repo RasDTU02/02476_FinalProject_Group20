@@ -1,0 +1,19 @@
+# environment.yml
+# This file can be used to create an environment using:
+# $ conda env create -f environment.yml
+# platform: linux-64
+
+name: basic_env
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - numpy
+  - pandas
+  - matplotlib
+  - scikit-learn
+  - flask
+  - pip:
+      - notebook
+      - flask

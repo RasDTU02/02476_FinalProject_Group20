@@ -11,7 +11,7 @@ Project Initialization BJØRN
 Task 4: Create the initial file structure using cookiecutter with an appropriate template (M6). DONE
 Task 5: Fill out the data.py file to download and preprocess data (if necessary) (M6). DONE
 Task 6: Add a model to model.py and a training procedure to train.py (M6). DONE
-Task 7: Fill out requirements.txt and requirements_dev.txt (M2+M6). GØRES TIL SIDST.
+Task 7: Fill out requirements.txt and requirements_dev.txt (M2+M6). GØRES TIL SIDST. (Allerede gjort i enviroment.yml da det er et conda env og ikke pip)
 
 Code and Good Practices ALEXANDER
 Task 8: Comply with good coding practices (pep8) (M7). DONE
@@ -25,7 +25,7 @@ Task 28: Add a workflow that triggers when data changes (M19).
 Task 29: Add a workflow that triggers on changes to the model registry (M19).
 
 Docker and Deployment ALEXANDER AND RASMUS
-Task 12: Construct Dockerfiles for your code (M10).
+Task 12: Construct Dockerfiles for your code (M10). DONE
 Task 13: Build and validate Dockerfiles locally (M10).
 Task 34: Deploy the model in GCP using Functions or Run as backend (M23).
 
