@@ -4,7 +4,7 @@ Version Control and Environment Setup  RASMUS
 Task 1: Create a Git repository (M5). DONE
 Task 2: Ensure all team members have write access to the GitHub repository (M5). DONE
 Task 3: Create a dedicated environment for the project to track packages (M2). (Det gør vi hver især på vores computere, eller?)
-Task 10: Set up version control for your data or part of your data (M8).
+Task 10: Set up version control for your data or part of your data (M8). DONE
 Task 27: Add pre-commit hooks to your version control setup (M18).
 
 Project Initialization BJØRN
@@ -14,10 +14,10 @@ Task 6: Add a model to model.py and a training procedure to train.py (M6). DONE
 Task 7: Fill out requirements.txt and requirements_dev.txt (M2+M6). GØRES TIL SIDST.
 
 Code and Good Practices ALEXANDER
-Task 8: Comply with good coding practices (pep8) (M7).
-Task 9: Use code typing and document essential parts of the code (M7).
-Task 24: Set up continuous integration on GitHub (M17).
-Task 26: Add a linting step to your continuous integration (M17).
+Task 8: Comply with good coding practices (pep8) (M7). DONE
+Task 9: Use code typing and document essential parts of the code (M7). DONE
+Task 24: Set up continuous integration on GitHub (M17). Done
+Task 26: Add a linting step to your continuous integration (M17). DONE
 
 Command Line Interface and Automation ALEXANDER
 Task 11: Add command-line interfaces and project commands where relevant (M9). DONE
