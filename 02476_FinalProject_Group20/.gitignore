@@ -1,5 +1,7 @@
 # General Data Exclusions
-# data/
+data/raw/Rice_Image_Dataset
+data/raw/rice_dataset.zip
+data/processed/Rice_Image_Dataset
 
 docs/site/
 
