@@ -1,3 +1,9 @@
+# train.py
+# To run default training: python src/rice/train.py
+# To run experiment: python src/rice/train.py experiment=exp1
+# To add a parameter: python src/rice/train.py +experiment.new_param=42
+# To change a parameter: python src/rice/train.py training_conf.learning_rate=0.0001
+
 import hydra
 from omegaconf import DictConfig, OmegaConf
 import torch
@@ -12,18 +18,23 @@ import os
 from PIL import Image
 from datetime import datetime
 
+import logging
+
+# Create logger
+log = logging.getLogger(__name__)
+
 def set_seed(seed):
     torch.manual_seed(seed)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
 
-@hydra.main(config_path="configs", config_name="config", version_base=None)
+@hydra.main(config_path="../../configs", config_name="config", version_base=None)
 def train_model(cfg: DictConfig):
     # Sæt seed for reproducerbarhed
     set_seed(cfg.seed)
     
     # Load data
-    train_loader, test_loader = load_data(max_images=cfg.training_conf.max_images)
+    train_loader, test_loader = load_data(cfg)
     
     # Get model
     model = get_pretrained_model(num_classes=cfg.model_conf.num_classes)
@@ -50,8 +61,10 @@ def train_model(cfg: DictConfig):
             running_loss += loss.item()
         
         print(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
+        log.info(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
     
     print("Training complete.")
+    log.info("Training complete.")
     
     # Save model
     models_path = Path("models")
@@ -62,11 +75,17 @@ def train_model(cfg: DictConfig):
     run_path = models_path / run_folder
     run_path.mkdir(parents=True, exist_ok=True)
     
-    model_path = run_path / "rice_model.pth"
-    torch.save(model.state_dict(), model_path)
-    print(f"Model saved as {model_path}")
+    model_path = run_path / "rice_model_learned_parameters.pth"
+    torch.save(model.state_dict(), model_path) # Saves only the learned parameters
+    print(f"Model state_dict saved as {model_path}")
+    log.info(f"Model state_dict saved as {model_path}")
 
-def load_data(max_images: int = None):
+    model_path_full = run_path / "rice_model_full.pth"
+    torch.save(model, model_path_full) # Saves the full model
+    print(f"Full model saved as {model_path_full}")
+    log.info(f"Full model saved as {model_path_full}")
+
+def load_data(cfg: DictConfig):
     """Load processed JPG images and optionally limit the number of images."""
     if not Path("data/raw/Rice_Image_Dataset").exists():
         raise FileNotFoundError(f"Processed data path 'data/raw/Rice_Image_Dataset' does not exist.")
@@ -87,13 +106,15 @@ def load_data(max_images: int = None):
     
     for class_idx, class_dir in enumerate(class_dirs):
         print(f"Processing class {class_idx}: {class_dir.name}")
+        log.info(f"Processing class {class_idx}: {class_dir.name}")
         images = list(class_dir.glob("*.jpg"))
         if len(images) == 0:
             print(f"Warning: No images found in {class_dir}")
+            log.warning(f"Warning: No images found in {class_dir}")
             continue
 
-        if max_images:
-            images = images[:max_images]  # Begræns antallet af billeder pr. klasse
+        if cfg.training_conf.max_images:
+            images = images[:cfg.training_conf.max_images]  # Begræns antallet af billeder pr. klasse
 
         split_idx = int(0.8 * len(images))  # 80% train, 20% test
         for i, img_path in enumerate(images):
@@ -110,12 +131,15 @@ def load_data(max_images: int = None):
         raise RuntimeError("No training data loaded. Check your processed data folder.")
 
     print("Unique train labels:", set(train_labels))
+    log.info(f"Unique train labels: {set(train_labels)}")
     print("Unique test labels:", set(test_labels))
+    log.info(f"Unique test labels: {set(test_labels)}")
 
     train_set = torch.utils.data.TensorDataset(torch.stack(train_data), torch.tensor(train_labels))
     test_set = torch.utils.data.TensorDataset(torch.stack(test_data), torch.tensor(test_labels))
 
-    return DataLoader(train_set, batch_size=32, shuffle=True), DataLoader(test_set, batch_size=32, shuffle=False)
+    # Brug batch_size fra konfigurationen
+    return DataLoader(train_set, batch_size=cfg.training_conf.batch_size, shuffle=True), DataLoader(test_set, batch_size=cfg.training_conf.batch_size, shuffle=False)
 
 def main():
     train_model()

@@ -1,5 +1,5 @@
+# configs/config.yaml
 defaults:
   - model_conf: default
   - training_conf: default
-
-seed: 42
+seed: 42  # eller en anden værdi du ønsker at bruge
