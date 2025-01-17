@@ -21,8 +21,8 @@ Task 26: Add a linting step to your continuous integration (M17). DONE
 
 Command Line Interface and Automation ALEXANDER
 Task 11: Add command-line interfaces and project commands where relevant (M9). DONE
-Task 28: Add a workflow that triggers when data changes (M19).
-Task 29: Add a workflow that triggers on changes to the model registry (M19).
+Task 28: Add a workflow that triggers when data changes (M19). Done
+Task 29: Add a workflow that triggers on changes to the model registry (M19). Done
 
 Docker and Deployment ALEXANDER AND RASMUS
 Task 12: Construct Dockerfiles for your code (M10).
