@@ -32,8 +32,8 @@ Task 34: Deploy the model in GCP using Functions or Run as backend (M23).
 Experiment Management and Logging BJØRN
 Task 14: Write configuration files for experiments (M11). DONE
 Task 15: Use Hydra to manage hyperparameters (M11). DONE
-Task 17: Use logging to record important events (M14).
-Task 18: Use Weights & Biases for training progress (M14).
+Task 17: Use logging to record important events (M14). DONE
+Task 18: Use Weights & Biases for training progress (M14). DONE
 Task 19: Consider running a hyperparameter optimization sweep (M14).
 
 Testing and Continuous Integration
