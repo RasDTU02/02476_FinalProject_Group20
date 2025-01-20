@@ -34,11 +34,11 @@ Task 14: Write configuration files for experiments (M11). DONE
 Task 15: Use Hydra to manage hyperparameters (M11). DONE
 Task 17: Use logging to record important events (M14). DONE
 Task 18: Use Weights & Biases for training progress (M14). DONE
-Task 19: Consider running a hyperparameter optimization sweep (M14).
+Task 19: Consider running a hyperparameter optimization sweep (M14). DONE
 
 Testing and Continuous Integration
-Task 21: Write unit tests for data-related code (M16).
-Task 22: Write unit tests for model and training procedures (M16).
+Task 21: Write unit tests for data-related code (M16). DONE 
+Task 22: Write unit tests for model and training procedures (M16). DONE
 Task 23: Calculate code coverage (M16).
 Task 25: Add caching and multi-OS/Python/PyTorch testing to continuous integration (M17).
 Task 35: Write API tests and add CI for these tests (M24).
