@@ -1,0 +1,30 @@
+# General experiment settings
+experiment_name: "default_experiment"
+seed: 42
+output_dir: "data/raw"
+
+# Data configuration
+data:
+  path: "data/raw/dataset.csv"
+  batch_size: 32
+  shuffle: true
+  validation_split: 0.2
+
+# Model configuration
+model:
+  type: "resnet18"
+  hidden_units: 128
+  dropout: 0.3
+
+# Training settings
+training:
+  epochs: 50
+  learning_rate: 0.001
+  optimizer: "adam"
+  loss_function: "cross_entropy"
+
+# Logging settings
+logging:
+  level: "INFO"
+  log_file: "logs/experiment.log"
+  save_model: true

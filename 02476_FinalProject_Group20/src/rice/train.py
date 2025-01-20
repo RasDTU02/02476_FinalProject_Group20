@@ -17,22 +17,32 @@ from tqdm import tqdm
 import os
 from PIL import Image
 from datetime import datetime
+from src.rice.logger import get_logger
+import wandb
 
 import logging
 
 # Create logger
-log = logging.getLogger(__name__)
+log = get_logger(__name__)
 
 def set_seed(seed):
     torch.manual_seed(seed)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
 
+def initialize_wandb(cfg: DictConfig):
+    wandb.init(
+        project="rice-classification",  # Replace with your project name
+        config=cfg,  # Logs all hyperparameters from Hydra config
+        name=cfg.experiment_name,  # Name of the run
+    )
+
 @hydra.main(config_path="../../configs", config_name="config", version_base=None)
 def train_model(cfg: DictConfig):
     # Sæt seed for reproducerbarhed
     set_seed(cfg.seed)
-
+    initialize_wandb(cfg)
+    
     # Load data
     train_loader, test_loader = load_data(cfg)
 
@@ -59,13 +69,34 @@ def train_model(cfg: DictConfig):
             optimizer.step()
 
             running_loss += loss.item()
+            _, predicted = torch.max(outputs, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
+
+            wandb.log({
+                "batch_loss": loss.item(),
+                "running_accuracy": 100 * correct / total
+            })
+        
+        epoch_loss = running_loss / len(train_loader)
+        epoch_accuracy = 100 * correct / total
+
+        wandb.log({
+            "epoch": epoch + 1,
+            "epoch_loss": epoch_loss,
+            "epoch_accuracy": epoch_accuracy
+        })
+
+        log.info(f"Epoch {epoch+1}: Loss {epoch_loss:.4f}, Accuracy {epoch_accuracy:.2f}%")
+
 
         print(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
         log.info(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
 
     print("Training complete.")
     log.info("Training complete.")
-
+    wandb.finish()  # Finish the run
+    
     # Save model
     models_path = Path("models")
     models_path.mkdir(exist_ok=True)

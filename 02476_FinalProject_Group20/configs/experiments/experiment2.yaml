@@ -1,0 +1,11 @@
+defaults:
+  - config
+
+experiment_name: "experiment_2"
+
+model:
+  type: "transformer"
+  hidden_units: 256
+
+data:
+  batch_size: 64

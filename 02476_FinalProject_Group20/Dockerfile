@@ -1,57 +1,26 @@
-# UDKAST
-# HUSK AT OPDATERE enviroment.yml og DOCKERFILE NÅR VI ER FÆRDIGE MED PROJEKTET
+# Use a base image with Conda pre-installed
+FROM continuumio/miniconda3:latest
 
-FROM python:3.10
+# Set the working directory
+WORKDIR /app
 
-# Working directory (vores er tom for nu)
-WORKDIR /model
+# Copy environment.yml file into the container
+COPY environment.yml .
 
-# system dependencies (opdater de her når vi er færdige med projektet)
-# de her dependencies er bare pladsholdere
-RUN apt-get update -y && apt-get install -y \
-    libgl1-mesa-glx \
-    ffmpeg \
-    libsm6 \
-    libxext6 \
-    wget && \
-    # fjern cache
-    rm -rf /var/lib/apt/lists/*
+# Create the Conda environment
+RUN conda env create -f environment.yml && conda clean -afy
 
-# installer miniconda i vores docker
-ENV CONDA_DIR /opt/conda
+# Activate the environment and ensure it works (default name from environment.yml)
+SHELL ["conda", "run", "-n", "basic_env", "/bin/bash", "-c"]
 
-# download miniconda
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
-    # installer miniconda
-    bash ~/miniconda.sh -b -p $CONDA_DIR && \
-    # fjern miniconda.sh filen
-    rm ~/miniconda.sh
+# Install additional dependencies (if needed)
+RUN conda install -y pip && pip install --no-cache-dir typer
 
+# Copy the rest of the project files
+COPY . .
 
-# conda PATH
-ENV PATH=$CONDA_DIR/bin:$PATH
+# Add /app to the Python path
+ENV PYTHONPATH=/app
 
-# her kopieres alle filer fra repo til docker
-COPY environment.yml environment.yml
-COPY src/ src/
-COPY models/ models/
-
-# opsætning af environment og installering af dependencies
-RUN conda env create -f environment.yml && \
-    # cache fjernes
-    conda clean -afy && \
-    # aktiver environment
-    echo "source activate docker_env" > ~/.bashrc
-
-# Ensure the environment is used by adding it to PATH
-ENV PATH=$CONDA_DIR/envs/docker_env/bin:$PATH
-
-
-# Set working directory for the API
-WORKDIR /model/src/api
-ENV FLASK_APP=main
-ENV FLASK_ENV=production
-
-# Expose port and set command for the API
-EXPOSE 8080
-CMD ["flask", "run", "--host=0.0.0.0", "--port=8080"]
+# Set the default command (activates the Conda environment)
+CMD ["conda", "run", "-n", "basic_env", "python", "cli.py", "--root-dir", "data/archive/Rice_Image_Dataset", "--batch-size", "32", "--epochs", "10", "--lr", "0.001", "--save-path", "model_parameters/model.pth"]

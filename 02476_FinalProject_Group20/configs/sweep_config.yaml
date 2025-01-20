@@ -1,0 +1,15 @@
+method: bayes  # Options: grid, random, bayes (Bayesian optimization recommended)
+metric:
+  name: epoch_accuracy
+  goal: maximize  # Could be 'minimize' if optimizing for loss
+
+parameters:
+  training_conf.learning_rate:
+    min: 0.0001
+    max: 0.01
+  training_conf.batch_size:
+    values: [16, 32, 64]
+  training_conf.num_epochs:
+    values: [10, 20, 50]
+  model_conf.num_classes:
+    values: [5, 10]
