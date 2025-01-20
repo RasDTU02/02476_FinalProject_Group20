@@ -1,7 +1,7 @@
 # UDKAST
 # HUSK AT OPDATERE enviroment.yml og DOCKERFILE NÅR VI ER FÆRDIGE MED PROJEKTET
 
-FROM python:3.10 
+FROM python:3.10
 
 # Working directory (vores er tom for nu)
 WORKDIR /model
@@ -26,7 +26,7 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     bash ~/miniconda.sh -b -p $CONDA_DIR && \
     # fjern miniconda.sh filen
     rm ~/miniconda.sh
-    
+
 
 # conda PATH
 ENV PATH=$CONDA_DIR/bin:$PATH

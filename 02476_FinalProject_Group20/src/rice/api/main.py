@@ -21,7 +21,7 @@ model = RiceModel(NUM_CLASSES)  # Initialize the model from models.py
 
 
 @app.route("/", methods=['GET', 'POST'])
-def upload(): 
+def upload():
     if request.method == 'POST':
             # check if the post request has the file part
             if 'file' not in request.files:
@@ -37,17 +37,17 @@ def upload():
                 filename = secure_filename(file.filename)
                 path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 file.save(path)
-            
+
             # Uploaded now infer
                 label, precision = model.predict(path)
                 return render_template('base.html', label=label, url=filename, precision="{:.2f}%".format(precision))
 
             return "File failed"
-    else: 
+    else:
         return render_template('base.html', label=None, url=None, precision=None)
 
 @app.route("/json", methods=['POST'])
-def json(): 
+def json():
     # check if the post request has the file part
     if 'file' not in request.files:
         return "No file"
@@ -62,12 +62,12 @@ def json():
         filename = secure_filename(file.filename)
         path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(path)
-    
+
         label, precision = model.predict(path)
         return {"label": label, "precision": precision}
 
     return "File failed"
-    
+
 
 def allowed_file(filename):
     return '.' in filename and \

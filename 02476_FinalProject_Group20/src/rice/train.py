@@ -32,49 +32,49 @@ def set_seed(seed):
 def train_model(cfg: DictConfig):
     # Sæt seed for reproducerbarhed
     set_seed(cfg.seed)
-    
+
     # Load data
     train_loader, test_loader = load_data(cfg)
-    
+
     # Get model
     model = get_pretrained_model(num_classes=cfg.model_conf.num_classes)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
-    
+
     # Define loss function and optimizer
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=cfg.training_conf.learning_rate)
-    
+
     # Training loop
     for epoch in range(cfg.training_conf.num_epochs):
         running_loss = 0.0
         model.train()
         for images, labels in tqdm(train_loader, desc=f"Epoch {epoch+1}/{cfg.training_conf.num_epochs}"):
             images, labels = images.to(device), labels.to(device)
-            
+
             optimizer.zero_grad()
             outputs = model(images)
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
-            
+
             running_loss += loss.item()
-        
+
         print(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
         log.info(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
-    
+
     print("Training complete.")
     log.info("Training complete.")
-    
+
     # Save model
     models_path = Path("models")
     models_path.mkdir(exist_ok=True)
-    
+
     now = datetime.now()
     run_folder = now.strftime("%Y%m%d_%H%M%S")
     run_path = models_path / run_folder
     run_path.mkdir(parents=True, exist_ok=True)
-    
+
     model_path = run_path / "rice_model_learned_parameters.pth"
     torch.save(model.state_dict(), model_path) # Saves only the learned parameters
     print(f"Model state_dict saved as {model_path}")
@@ -103,7 +103,7 @@ def load_data(cfg: DictConfig):
 
     # Filtrér kun mapper som ikke er tekstfiler eller skjulte filer
     class_dirs = [d for d in Path("data/raw/Rice_Image_Dataset").iterdir() if d.is_dir() and not d.name.startswith('.')]
-    
+
     for class_idx, class_dir in enumerate(class_dirs):
         print(f"Processing class {class_idx}: {class_dir.name}")
         log.info(f"Processing class {class_idx}: {class_dir.name}")

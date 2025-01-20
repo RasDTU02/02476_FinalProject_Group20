@@ -15,11 +15,11 @@ In this project, we expect to use pre-traied models, in order to successfully ma
 * Resnet (Residual Networks)
   *  Good for image classification, because of it's deep architecture.
   *  Pre-traied and accessable through PyTorch
- 
+
 * EfficientNet
   * Is known to have a high accuracy, but a reduced amout of parameters compared to other models.
   * Ideal for testing a more simple approach.
- 
+
 * VGG
   * Simple and effective, but computationally expensive
   * Is good as a benchmark when compared to more modern architectures.

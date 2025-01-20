@@ -36,12 +36,12 @@ Task 17: Use logging to record important events (M14).
 Task 18: Use Weights & Biases for training progress (M14).
 Task 19: Consider running a hyperparameter optimization sweep (M14).
 
-Testing and Continuous Integration
-Task 21: Write unit tests for data-related code (M16).
-Task 22: Write unit tests for model and training procedures (M16).
-Task 23: Calculate code coverage (M16).
-Task 25: Add caching and multi-OS/Python/PyTorch testing to continuous integration (M17).
-Task 35: Write API tests and add CI for these tests (M24).
+Testing and Continuous Integration ALEXANDER
+Task 21: Write unit tests for data-related code (M16).Done
+Task 22: Write unit tests for model and training procedures (M16). Done
+Task 23: Calculate code coverage (M16). Gøres til sidst. Ihvertfald ikke helt endnu
+Task 25: Add caching and multi-OS/Python/PyTorch testing to continuous integration (M17). Done
+Task 35: Write API tests and add CI for these tests (M24). Done
 
 Cloud and Scalability
 Task 30: Set up a GCP bucket and link it with your data version control setup (M21).
@@ -50,11 +50,11 @@ Task 32: Train the model in GCP using Engine or Vertex AI (M21).
 Task 44: Optimize data loading with distributed data loading (M29).
 Task 45: Use distributed training to optimize your training pipeline (M30).
 
-API and Frontend
-Task 33: Create a FastAPI application for model inference (M22).
+API and Frontend ALEXANDER
+Task 33: Create a FastAPI application for model inference (M22). Done
 Task 36: Load test the API (M24).
-Task 37: Create a specialized ML-deployment API (e.g., with ONNX or BentoML) (M25).
-Task 38: Develop a frontend for your API (M26).
+Task 37: Create a specialized ML-deployment API (e.g., with ONNX or BentoML) (M25). Done
+Task 38: Develop a frontend for your API (M26). Done
 
 Monitoring and Optimization
 Task 39: Check the model’s robustness to data drift (M27).
