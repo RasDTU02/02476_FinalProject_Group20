@@ -1,5 +1,5 @@
 # train.py
-# To run default training: python src/rice/train.py
+# To run default training: python src/rice/train.py (remember to set cd to the root of the project)
 # To run experiment: python src/rice/train.py experiment=exp1
 # To add a parameter: python src/rice/train.py +experiment.new_param=42
 # To change a parameter: python src/rice/train.py training_conf.learning_rate=0.0001
@@ -31,16 +31,21 @@ def set_seed(seed):
         torch.cuda.manual_seed_all(seed)
 
 def initialize_wandb(cfg: DictConfig):
+    # Fjern eventuelle felter, der ikke kan konverteres til JSON
+    cfg_dict = OmegaConf.to_container(cfg, resolve=True)
+    safe_cfg = {k: v for k, v in cfg_dict.items() if isinstance(v, (int, float, str, bool, list, dict, type(None)))}
+    
     wandb.init(
-        project="rice-classification",  # Replace with your project name
-        config=cfg,  # Logs all hyperparameters from Hydra config
-        name=cfg.experiment_name,  # Name of the run
+        project="rice-classification", # Replace with your own project name
+        config=safe_cfg, # Save hydra config
+        name=safe_cfg.get('experiment_name', 'default_experiment'), # The first argument is the name of the run, the second one is if the first one can not be used
     )
 
 @hydra.main(config_path="../../configs", config_name="config", version_base=None)
 def train_model(cfg: DictConfig):
     # Sæt seed for reproducerbarhed
     set_seed(cfg.seed)
+    
     initialize_wandb(cfg)
     
     # Load data
@@ -59,6 +64,10 @@ def train_model(cfg: DictConfig):
     for epoch in range(cfg.training_conf.num_epochs):
         running_loss = 0.0
         model.train()
+        # Initialiser total og correct her
+        total = 0
+        correct = 0
+        
         for images, labels in tqdm(train_loader, desc=f"Epoch {epoch+1}/{cfg.training_conf.num_epochs}"):
             images, labels = images.to(device), labels.to(device)
 
@@ -88,7 +97,6 @@ def train_model(cfg: DictConfig):
         })
 
         log.info(f"Epoch {epoch+1}: Loss {epoch_loss:.4f}, Accuracy {epoch_accuracy:.2f}%")
-
 
         print(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
         log.info(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
