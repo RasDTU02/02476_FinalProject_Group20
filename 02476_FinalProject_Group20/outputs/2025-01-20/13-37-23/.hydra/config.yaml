@@ -1,0 +1,9 @@
+model_conf:
+  num_classes: 5
+training_conf:
+  batch_size: 64
+  learning_rate: 0.001
+  num_epochs: 2
+  max_images: 20
+seed: 42
+experiment: exp1

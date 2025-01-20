@@ -1,0 +1,22 @@
+# environment.yml
+# This file can be used to create an environment using:
+# $ conda env create -f environment.yml
+# platform: linux-64
+
+name: basic_env
+channels:
+  - conda-forge
+  - pytorch
+  - defaults
+dependencies:
+  - python=3.9
+  - pytorch=2.0
+  - torchvision=0.15
+  - tqdm
+  - requests
+  - pillow
+  - omegaconf
+  - pip
+  - pip:
+      - typer
+      - hydra-core
