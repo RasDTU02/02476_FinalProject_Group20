@@ -17,11 +17,12 @@ from tqdm import tqdm
 import os
 from PIL import Image
 from datetime import datetime
+from src.rice.logger import get_logger
 
 import logging
 
 # Create logger
-log = logging.getLogger(__name__)
+log = get_logger(__name__)
 
 def set_seed(seed):
     torch.manual_seed(seed)
