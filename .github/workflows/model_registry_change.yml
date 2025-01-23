@@ -3,7 +3,7 @@ name: Model Registry Workflow
 on:
   push:
     paths:
-      - '02476_FinalProject_Group20/models/**'  # Triggers on changes to anything in the models directory
+      - 'models/**'  # Triggers on changes to anything in the models directory
 
 jobs:
   check-model-change:
@@ -14,6 +14,5 @@ jobs:
 
       - name: Verify Model Changes
         run: |
-          cd 02476_FinalProject_Group20
           echo "Model changes detected in the repository"
           ls models/
