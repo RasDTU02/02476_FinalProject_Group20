@@ -5,3 +5,4 @@ defaults:
   - training_conf: default
 seed: 42  # eller en anden værdi du ønsker at bruge
 experiment_name: "default_experiment"
+sample_ratio: 0.01

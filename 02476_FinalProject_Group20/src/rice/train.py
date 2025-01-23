@@ -143,7 +143,7 @@ def train_model(cfg: DictConfig):
 
 
 def load_data(cfg: DictConfig):
-    """Load processed JPG images and optionally limit the number of images."""
+    """Load processed JPG images and optionally limit the number of images based on sample_ratio."""
     if not Path("data/raw/Rice_Image_Dataset").exists():
         raise FileNotFoundError(f"Processed data path 'data/raw/Rice_Image_Dataset' does not exist.")
 
@@ -170,8 +170,9 @@ def load_data(cfg: DictConfig):
             log.warning(f"Warning: No images found in {class_dir}")
             continue
 
-        if cfg.training_conf.max_images:
-            images = images[:cfg.training_conf.max_images]  # Begræns antallet af billeder pr. klasse
+        # Begræns antallet af billeder baseret på sample_ratio
+        num_samples = int(len(images) * cfg.sample_ratio)
+        images = images[:num_samples]  # Sample baseret på sample_ratio
 
         split_idx = int(0.8 * len(images))  # 80% train, 20% test
         for i, img_path in enumerate(images):
@@ -197,6 +198,7 @@ def load_data(cfg: DictConfig):
 
     # Brug batch_size fra konfigurationen
     return DataLoader(train_set, batch_size=cfg.training_conf.batch_size, shuffle=True), DataLoader(test_set, batch_size=cfg.training_conf.batch_size, shuffle=False)
+
 
 def main():
     train_model()
