@@ -2,9 +2,17 @@ name: Continuous Integration Tests
 
 on:
   pull_request:
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'requirements.txt'
     branches:
       - main
   push:
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'requirements.txt'
     branches:
       - main
 

@@ -60,6 +60,8 @@ pydantic==2.10.5
 pydantic_core==2.27.2
 Pygments==2.19.1
 pytest==7.4.4
+pytest-cov==4.1.0
+pytest-mock==3.1.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytorch_lightning==2.5.0.post0
