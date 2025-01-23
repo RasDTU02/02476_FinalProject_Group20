@@ -10,7 +10,7 @@
 [ ] Question 10 # Alexanders opgave (DVC)
 [ ] Question 11 # Alexanders opgave (Continious Integration)
 [x] Question 12
-[ ] Question 13
+[x] Question 13
 [ ] Question 14
 [ ] Question 15
 [ ] Question 16

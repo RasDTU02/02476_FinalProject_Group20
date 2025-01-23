@@ -330,7 +330,17 @@ In this project, two experiments were created in the folder "configs/experiments
 >
 > Answer:
 
---- question 13 fill here ---
+Different intiatives were used in order to make sure that there was no information that was lost.
+
+Firstly, we implmented GitHub and Data Version Control. This was done to track the changes done in the data and code. This ensured the same version of the data across different runs of the code, consistent with the changes
+
+YAML was used along with Hydra, to make sure that the parameters were stored and intialized in a structured and safe way. This created a system that systematically made it possible to change the parameters of the model.
+
+Our setup also incldued logging. The use of logging makes it possible to keep track of the different results, and the time that they are created.
+
+By using experimental tracking with Weights & Bias, it was possible to automatically log all experimantal details, including hyperparameters and model changes.
+
+Lastly, the model also contained a seed, such that the model produced deterministic results, and that the change in performance was not due to randomness.
 
 ### Question 14
 
