@@ -6,7 +6,7 @@
 [x] Question 6
 [x] Question 7
 [x] Question 8
-[ ] Question 9
+[x] Question 9
 [ ] Question 10
 [ ] Question 11
 [ ] Question 12

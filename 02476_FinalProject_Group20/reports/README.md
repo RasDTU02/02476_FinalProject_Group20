@@ -258,7 +258,11 @@ In a complex code setup like this, small details can still make errors, even tho
 >
 > Answer:
 
---- question 9 fill here ---
+The implementation of working in branches and pull requests was done to some extend. The main idea is to work in different breaches, and when a bug is fixed, or a feature is developed, it is merged back to the main branch by performing pull request.
+
+Different branches were intialized individually, such that it was possible to merge different areas of the Machine Learning Operations tasks together in the folder structures. This ensures that we were not working on the same code, and could focus on different areas of the project at the same time, while working in the same repository.
+
+If we were interested in working on the same areas of the project at the same time, it would be sufficient to implement a more strict usage of branches and pull requests.
 
 ### Question 10
 
