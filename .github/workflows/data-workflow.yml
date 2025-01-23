@@ -1,15 +1,15 @@
-name: Data Change Workflow
+name: Data Workflow
 
 on:
   push:
     paths:
-      - '**/*.dvc'   # Triggers on changes to DVC files
-      - '.dvc/config' # Triggers on changes to DVC configuration
-      - '.dvcignore'  # Triggers on changes to DVC ignore file
+      - '**/*.dvc'
+      - '.dvc/config'
+      - '.dvcignore'
 
 jobs:
-  check-data-change:
-    runs-on: ubuntu-latest
+  data-check:
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

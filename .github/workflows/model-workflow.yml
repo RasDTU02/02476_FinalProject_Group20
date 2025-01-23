@@ -1,0 +1,20 @@
+name: Model Workflow
+
+on:
+  push:
+    paths:
+      - 'models/**'
+      - 'src/rice/model.py'
+
+jobs:
+  model-check:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Verify Model Changes
+        run: |
+          echo "Checking for changes in models..."
+          ls models/ || echo "No changes in models folder"
+          cat src/rice/model.py || echo "No changes in model.py"
