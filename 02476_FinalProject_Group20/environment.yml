@@ -18,6 +18,7 @@ dependencies:
   - omegaconf
   - pip
   - wandb
+  - fastapi
   - pip:
       - typer
       - hydra-core
