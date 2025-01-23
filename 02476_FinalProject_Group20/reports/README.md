@@ -58,38 +58,38 @@ will check the repositories and the code to verify your answers.
     are using (M2+M6) # gør vi til sidst.
 * [ ] Remember to comply with good coding practices (`pep8`) while doing the project (M7) # gør vi til sidst.
 * [ ] Do a bit of code typing and remember to document essential parts of your code (M7) # Gør vi til sidst
-* [x] Setup version control for your data or part of your data (M8)
+* [x] Setup version control for your data or part of your data (M8) ALEXANDER
 * [x] Add command line interfaces and project commands to your code where it makes sense (M9) ()
 * [ ] Construct one or multiple docker files for your code (M10)
 * [ ] Build the docker files locally and make sure they work as intended (M10)
 * [x] Write one or multiple configurations files for your experiments (M11)
 * [x] Used Hydra to load the configurations and manage your hyperparameters (M11)
-* [ ] Use profiling to optimize your code (M12)
-* [x] Use logging to log important events in your code (M14)
-* [ ] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14)
+* [ ] Use profiling to optimize your code (M12) BJØRN
+* [x] Use logging to log important events in your code (M14) BJØRN (samme output-mapper)
+* [ ] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14) BJØRN
 * [ ] Consider running a hyperparameter optimization sweep (M14)
-* [ ] Use PyTorch-lightning (if applicable) to reduce the amount of boilerplate in your code (M15)
+* [ ] Use PyTorch-lightning (if applicable) to reduce the amount of boilerplate in your code (M15) RASMUS
 
 ### Week 2
 
-* [x] Write unit tests related to the data part of your code (M16)
-* [x] Write unit tests related to model construction and or model training (M16)
-* [ ] Calculate the code coverage (M16)
-* [x] Get some continuous integration running on the GitHub repository (M17)
-* [x] Add caching and multi-os/python/pytorch testing to your continuous integration (M17)
-* [x] Add a linting step to your continuous integration (M17)
-* [ ] Add pre-commit hooks to your version control setup (M18)
-* [x] Add a continues workflow that triggers when data changes (M19)
-* [x] Add a continues workflow that triggers when changes to the model registry is made (M19)
-* [ ] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21)
-* [ ] Create a trigger workflow for automatically building your docker images (M21)
+* [x] Write unit tests related to the data part of your code (M16) ALEXANDER
+* [x] Write unit tests related to model construction and or model training (M16) ALEXANDER
+* [ ] Calculate the code coverage (M16) ALEXANDER
+* [x] Get some continuous integration running on the GitHub repository (M17) ALEXANDER
+* [x] Add caching and multi-os/python/pytorch testing to your continuous integration (M17) ALEXANDER
+* [x] Add a linting step to your continuous integration (M17) ALEXANDER
+* [ ] Add pre-commit hooks to your version control setup (M18) RASMUS
+* [x] Add a continues workflow that triggers when data changes (M19) ALEXANDER
+* [x] Add a continues workflow that triggers when changes to the model registry is made (M19) ALEXANDER
+* [ ] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21) RASMUS
+* [ ] Create a trigger workflow for automatically building your docker images (M21) RASMUS
 * [ ] Get your model training in GCP using either the Engine or Vertex AI (M21)
-* [x] Create a FastAPI application that can do inference using your model (M22)
-* [x] Deploy your model in GCP using either Functions or Run as the backend (M23)
-* [x] Write API tests for your application and setup continues integration for these (M24)
-* [ ] Load test your application (M24)
-* [x] Create a more specialized ML-deployment API using either ONNX or BentoML, or both (M25)
-* [x] Create a frontend for your API (M26)
+* [x] Create a FastAPI application that can do inference using your model (M22) ALEXANDER
+* [ ] Deploy your model in GCP using either Functions or Run as the backend (M23)
+* [x] Write API tests for your application and setup continues integration for these (M24) ALEXANDER
+* [ ] Load test your application (M24) ALEXANDER
+* [x] Create a more specialized ML-deployment API using either ONNX or BentoML, or both (M25) ALEXANDER
+* [x] Create a frontend for your API (M26) ALEXANDER
 
 ### Week 3
 
@@ -107,9 +107,9 @@ will check the repositories and the code to verify your answers.
 * [ ] Write some documentation for your application (M32)
 * [ ] Publish the documentation to GitHub Pages (M32)
 * [ ] Revisit your initial project description. Did the project turn out as you wanted?
-* [ ] Create an architectural diagram over your MLOps pipeline
-* [ ] Make sure all group members have an understanding about all parts of the project
-* [ ] Uploaded all your code to GitHub
+* [ ] Create an architectural diagram over your MLOps pipeline # RASMUS
+* [x] Make sure all group members have an understanding about all parts of the project
+* [x] Uploaded all your code to GitHub
 
 ## Group information
 
