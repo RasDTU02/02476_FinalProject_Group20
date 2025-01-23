@@ -58,7 +58,7 @@ will check the repositories and the code to verify your answers.
     are using (M2+M6) # gør vi til sidst.
 * [ ] Remember to comply with good coding practices (`pep8`) while doing the project (M7) # gør vi til sidst.
 * [ ] Do a bit of code typing and remember to document essential parts of your code (M7) # Gør vi til sidst
-* [x] Setup version control for your data or part of your data (M8) ALEXANDER
+* [x] Setup version control for your data or part of your data (M8)
 * [x] Add command line interfaces and project commands to your code where it makes sense (M9) ()
 * [x] Construct one or multiple docker files for your code (M10)
 * [x] Build the docker files locally and make sure they work as intended (M10)
@@ -67,22 +67,22 @@ will check the repositories and the code to verify your answers.
 * [ ] Use profiling to optimize your code (M12) BJØRN
 * [x] Use logging to log important events in your code (M14) BJØRN (samme output-mapper)
 * [ ] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14) BJØRN
-* [ ] Consider running a hyperparameter optimization sweep (M14)
-* [ ] Use PyTorch-lightning (if applicable) to reduce the amount of boilerplate in your code (M15) RASMUS
+* [x] Consider running a hyperparameter optimization sweep (M14)
+* [x] Use PyTorch-lightning (if applicable) to reduce the amount of boilerplate in your code (M15)
 
 ### Week 2
 
-* [x] Write unit tests related to the data part of your code (M16) ALEXANDER
-* [x] Write unit tests related to model construction and or model training (M16) ALEXANDER
-* [ ] Calculate the code coverage (M16) ALEXANDER
+* [x] Write unit tests related to the data part of your code (M16)
+* [x] Write unit tests related to model construction and or model training (M16)
+* [x] Calculate the code coverage (M16)
 * [x] Get some continuous integration running on the GitHub repository (M17) ALEXANDER
 * [x] Add caching and multi-os/python/pytorch testing to your continuous integration (M17) ALEXANDER
 * [x] Add a linting step to your continuous integration (M17) ALEXANDER
-* [ ] Add pre-commit hooks to your version control setup (M18) RASMUS
+* [x] Add pre-commit hooks to your version control setup (M18)
 * [x] Add a continues workflow that triggers when data changes (M19) ALEXANDER
 * [x] Add a continues workflow that triggers when changes to the model registry is made (M19) ALEXANDER
-* [ ] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21) RASMUS
-* [ ] Create a trigger workflow for automatically building your docker images (M21) RASMUS
+* [ ] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21)
+* [x] Create a trigger workflow for automatically building your docker images (M21)
 * [ ] Get your model training in GCP using either the Engine or Vertex AI (M21)
 * [x] Create a FastAPI application that can do inference using your model (M22) ALEXANDER
 * [ ] Deploy your model in GCP using either Functions or Run as the backend (M23)
@@ -163,7 +163,11 @@ s224228, s224184, s225786
 >
 > Answer:
 
---- question 4 fill here ---
+We used a combination between pip and conda to manage our dependencies. The combination between these provided a large source for packages, and made sure that there were no dependency issues. By organizing the packages in both a requirements.txt and a enviroment.yml file, it was possible to make the creation of the enviroment easier.
+
+To use this code, and install the required packages, first it would be important to clone the github repository. Then the conda enviroment would be made "conda env create -f environment.yml". The enviroment is activated "conda activate rice" and the pip dependencies are installed "pip install -r requirements.txt".
+
+By using the combination of conda and pip, and storing a list of the dependencies in either a requirements.txt and/or enviroment.yml, it was possible to make the execution of the enviroment easy and simple.
 
 ### Question 5
 
@@ -194,7 +198,12 @@ s224228, s224184, s225786
 >
 > Answer:
 
---- question 6 fill here ---
+During our project, we implemented Black, Isort and Flask8. Black is used to automatically format code, to make all the code consistent. Isort automatically organizes and sorts the imports to keep the code organized. Flask8 is used as a linter to remove unused imports, syntax errors and styling violations.
+
+Throughout our code, we implemented different static type checking, such that the data was structured in the correct way for the functions to operate correctly.
+
+The code is also well-documented, and contains a short description of the purpose of the data, and how to use it. Steps include a comment on the reasoning behind it, such that the understanding of the code is easier.
+
 
 ## Version control
 
@@ -213,7 +222,9 @@ s224228, s224184, s225786
 >
 > Answer:
 
---- question 7 fill here ---
+We implemented tests for API, data, model and training. For the API, we made two tests. The first one checked if the train command sucessfully executed, and the other checked if the evaluate command runs with a checkpoint.
+
+For the data, we ma
 
 ### Question 8
 
@@ -430,8 +441,7 @@ s224228, s224184, s225786
 >
 > Answer:
 
---- question 22 fill here ---
-
+It was not possible for our model to be utilized in the cloud. The reason is due to several different factors. By implementing the model into a cloud system such as Engine or Vertex AI, it has to be compabitable with the eco-system for these platforms in order to function correctly. Different measures showed that the implementation of the model was inconsistent with the correct operational way, and therefore it was more safe to rely on the local storage of the model. Additionally, it was important to ackwoledge the size of our dataset. In these cases, it can become a bottleneck problem, since the handling of high concurrency loads can be a problem. By working in the format that was originally created, we ensured that our work remained stable and reliable.
 ## Deployment
 
 ### Question 23
@@ -559,7 +569,17 @@ s224228, s224184, s225786
 >
 > Answer:
 
---- question 30 fill here ---
+This project introduces different struggles and challenges to overcome in order to develop and deploy a model that successfully implement the method of Machine Learning Operations. During the project, there was a challenge for the functions to work across the different applications. It was important that the data structure was compatable with the functions that it was used for, and that it provided the correct output. Due to the complexity of the setup, it was difficult to always keep track of the small details, and it was therefore easy to overlook these.
+
+The implementation of Cookiecutter helped to provide a folder-structure that supported the overall goal. But to get the hang of it, multiple errors needed to be made. Files ended up in the wrong folders, and had to be relocated in order to keep the integrity of the setup.
+
+While implementing the sweep config for hyperparameter testing, different problems in relation to the retrieving of config values from Hydra became clear. This resulted in a deep dive into the variables defined, and making sure that they were consistent. It was then important to understand our structure of defining parameters, in order to overwrite these with hyper-parameters and/or test values.
+
+When developing the different unit tests, it was difficult to find test cases, that had a complexity that was sufficient to make sure the code was intact, but it was also diffult to not introduce too much complexity due to the greater margin of error. The unit testing therefore took a lot of testing and revising, in order to create tests that was sufficient in investigating our data.
+
+When setting up the logging, it was a struggle to keep the same timestamp for all the different subfolders. Often the logging time would be initialized in the moment of execution, and therefore create different timestamps for the same execution. This problem caused great confusion in the folder structure.
+
+
 
 ### Question 31
 
