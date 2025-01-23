@@ -3,22 +3,19 @@ name: Data Change Workflow
 on:
   push:
     paths:
-      - '**/*.dvc'   # Triggers on changes to DVC files
-      - '.dvc/config' # Triggers on changes to DVC configuration
-      - '.dvcignore'  # Triggers on changes to DVC ignore file
+      - '**/*.dvc'
+      - '.dvc/config'
+      - '.dvcignore'
 
 jobs:
   check-data-change:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Install DVC
         run: pip install dvc
-
-      - name: Pull Data
-        run: dvc pull
 
       - name: Verify Data Integrity
         run: dvc status
