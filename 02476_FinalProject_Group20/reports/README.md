@@ -58,7 +58,7 @@ will check the repositories and the code to verify your answers.
     are using (M2+M6) # gør vi til sidst.
 * [ ] Remember to comply with good coding practices (`pep8`) while doing the project (M7) # gør vi til sidst.
 * [ ] Do a bit of code typing and remember to document essential parts of your code (M7) # Gør vi til sidst
-* [x] Setup version control for your data or part of your data (M8) 
+* [x] Setup version control for your data or part of your data (M8)
 * [x] Add command line interfaces and project commands to your code where it makes sense (M9) ()
 * [x] Construct one or multiple docker files for your code (M10)
 * [x] Build the docker files locally and make sure they work as intended (M10)
@@ -72,7 +72,7 @@ will check the repositories and the code to verify your answers.
 
 ### Week 2
 
-* [x] Write unit tests related to the data part of your code (M16) 
+* [x] Write unit tests related to the data part of your code (M16)
 * [x] Write unit tests related to model construction and or model training (M16)
 * [x] Calculate the code coverage (M16)
 * [x] Get some continuous integration running on the GitHub repository (M17) ALEXANDER
@@ -198,7 +198,12 @@ By using the combination of conda and pip, and storing a list of the dependencie
 >
 > Answer:
 
---- question 6 fill here ---
+During our project, we implemented Black, Isort and Flask8. Black is used to automatically format code, to make all the code consistent. Isort automatically organizes and sorts the imports to keep the code organized. Flask8 is used as a linter to remove unused imports, syntax errors and styling violations.
+
+Throughout our code, we implemented different static type checking, such that the data was structured in the correct way for the functions to operate correctly.
+
+The code is also well-documented, and contains a short description of the purpose of the data, and how to use it. Steps include a comment on the reasoning behind it, such that the understanding of the code is easier.
+
 
 ## Version control
 
