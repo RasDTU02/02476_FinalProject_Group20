@@ -1,15 +1,16 @@
-method: bayes  # Options: grid, random, bayes (Bayesian optimization recommended)
+# configs/sweep_config.yaml
+method: bayes
 metric:
   name: epoch_accuracy
-  goal: maximize  # Could be 'minimize' if optimizing for loss
-
+  goal: maximize
 parameters:
-  training_conf.learning_rate:
-    min: 0.0001
-    max: 0.01
-  training_conf.batch_size:
-    values: [16, 32, 64]
-  training_conf.num_epochs:
-    values: [10, 20, 50]
-  model_conf.num_classes:
-    values: [5, 10]
+  learning_rate:
+    distribution: log_uniform
+    min: -10.0
+    max: -2.0
+  batch_size:
+    values: [32, 64, 128]
+  num_epochs:
+    values: [10, 20, 30]
+  max_images:  # Add this if you want to sweep over this parameter
+    values: [100, 200, 300]  # Example values
