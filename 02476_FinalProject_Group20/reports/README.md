@@ -58,7 +58,7 @@ will check the repositories and the code to verify your answers.
     are using (M2+M6) # gør vi til sidst.
 * [ ] Remember to comply with good coding practices (`pep8`) while doing the project (M7) # gør vi til sidst.
 * [ ] Do a bit of code typing and remember to document essential parts of your code (M7) # Gør vi til sidst
-* [x] Setup version control for your data or part of your data (M8) ALEXANDER
+* [x] Setup version control for your data or part of your data (M8) 
 * [x] Add command line interfaces and project commands to your code where it makes sense (M9) ()
 * [x] Construct one or multiple docker files for your code (M10)
 * [x] Build the docker files locally and make sure they work as intended (M10)
@@ -72,9 +72,9 @@ will check the repositories and the code to verify your answers.
 
 ### Week 2
 
-* [x] Write unit tests related to the data part of your code (M16) ALEXANDER
-* [x] Write unit tests related to model construction and or model training (M16) ALEXANDER
-* [ ] Calculate the code coverage (M16) ALEXANDER
+* [x] Write unit tests related to the data part of your code (M16) 
+* [x] Write unit tests related to model construction and or model training (M16)
+* [x] Calculate the code coverage (M16) ALEXANDER
 * [x] Get some continuous integration running on the GitHub repository (M17) ALEXANDER
 * [x] Add caching and multi-os/python/pytorch testing to your continuous integration (M17) ALEXANDER
 * [x] Add a linting step to your continuous integration (M17) ALEXANDER
