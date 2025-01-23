@@ -17,7 +17,7 @@ from tqdm import tqdm
 import os
 from PIL import Image
 from datetime import datetime
-from src.rice.logger import get_logger
+from rice.logger import get_logger
 import wandb
 
 import logging
