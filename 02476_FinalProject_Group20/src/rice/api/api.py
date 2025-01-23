@@ -11,9 +11,11 @@ app = FastAPI()
 # Path to the saved model
 MODEL_PATH = Path("models/model.pth")
 
+
 # Define input schema using Pydantic
 class PredictionRequest(BaseModel):
     image: bytes
+
 
 # Define model inference logic
 def load_model():
@@ -24,15 +26,15 @@ def load_model():
     model.eval()
     return model
 
+
 def preprocess_image(image_bytes):
     """Preprocess the uploaded image for inference."""
-    transform = T.Compose([
-        T.Resize((128, 128)),
-        T.ToTensor(),
-        T.Normalize(mean=[0.5], std=[0.5])
-    ])
+    transform = T.Compose(
+        [T.Resize((128, 128)), T.ToTensor(), T.Normalize(mean=[0.5], std=[0.5])]
+    )
     image = Image.open(image_bytes).convert("RGB")
     return transform(image).unsqueeze(0)
+
 
 def predict(model, image_tensor):
     """Perform inference and return predictions."""
@@ -41,14 +43,17 @@ def predict(model, image_tensor):
         _, predicted_class = torch.max(output, 1)
         return predicted_class.item()
 
+
 # Load the model once
 model = load_model()
+
 
 # API Endpoints
 @app.get("/")
 def health_check():
     """Health check endpoint."""
     return {"message": "API is running"}
+
 
 @app.post("/predict/")
 async def predict_endpoint(file: UploadFile = File(...)):
