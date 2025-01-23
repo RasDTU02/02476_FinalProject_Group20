@@ -16,6 +16,7 @@ from PIL import Image
 from logger import get_logger
 from model import get_pretrained_model
 
+
 class RiceLightningModule(pl.LightningModule):
     def __init__(self, cfg: DictConfig):
         super().__init__()
@@ -31,47 +32,56 @@ class RiceLightningModule(pl.LightningModule):
         images, labels = batch
         outputs = self(images)
         loss = self.criterion(outputs, labels)
-        
+
         # Log batch loss and accuracy
         preds = torch.argmax(outputs, dim=1)
         acc = (preds == labels).float().mean()
-        
-        self.log('train_loss', loss, on_step=True, on_epoch=False, prog_bar=True)
-        self.log('train_acc', acc, on_step=True, on_epoch=False, prog_bar=True)
-        
+
+        self.log("train_loss", loss, on_step=True, on_epoch=False, prog_bar=True)
+        self.log("train_acc", acc, on_step=True, on_epoch=False, prog_bar=True)
+
         return loss
 
     def validation_step(self, batch, batch_idx):
         images, labels = batch
         outputs = self(images)
         loss = self.criterion(outputs, labels)
-        
+
         preds = torch.argmax(outputs, dim=1)
         acc = (preds == labels).float().mean()
-        
-        self.log('val_loss', loss, on_epoch=True, prog_bar=True)
-        self.log('val_acc', acc, on_epoch=True, prog_bar=True)
-        
+
+        self.log("val_loss", loss, on_epoch=True, prog_bar=True)
+        self.log("val_acc", acc, on_epoch=True, prog_bar=True)
+
         return loss
 
     def configure_optimizers(self):
-        optimizer = optim.Adam(self.parameters(), lr=self.cfg.training_conf.learning_rate)
+        optimizer = optim.Adam(
+            self.parameters(), lr=self.cfg.training_conf.learning_rate
+        )
         return optimizer
+
 
 def load_data(cfg: DictConfig):
     """Load processed JPG images with transformation."""
-    transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.5], std=[0.5])
-    ])
+    transform = transforms.Compose(
+        [
+            transforms.Resize((224, 224)),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.5], std=[0.5]),
+        ]
+    )
 
     train_data = []
     train_labels = []
     val_data = []
     val_labels = []
 
-    class_dirs = [d for d in Path("data/raw/Rice_Image_Dataset").iterdir() if d.is_dir() and not d.name.startswith('.')]
+    class_dirs = [
+        d
+        for d in Path("data/raw/Rice_Image_Dataset").iterdir()
+        if d.is_dir() and not d.name.startswith(".")
+    ]
 
     for class_idx, class_dir in enumerate(class_dirs):
         images = list(class_dir.glob("*.jpg"))
@@ -79,7 +89,7 @@ def load_data(cfg: DictConfig):
             continue
 
         if cfg.training_conf.max_images:
-            images = images[:cfg.training_conf.max_images]
+            images = images[: cfg.training_conf.max_images]
 
         split_idx = int(0.8 * len(images))  # 80% train, 20% val
         for i, img_path in enumerate(images):
@@ -92,13 +102,22 @@ def load_data(cfg: DictConfig):
                 val_data.append(img)
                 val_labels.append(class_idx)
 
-    train_set = torch.utils.data.TensorDataset(torch.stack(train_data), torch.tensor(train_labels))
-    val_set = torch.utils.data.TensorDataset(torch.stack(val_data), torch.tensor(val_labels))
+    train_set = torch.utils.data.TensorDataset(
+        torch.stack(train_data), torch.tensor(train_labels)
+    )
+    val_set = torch.utils.data.TensorDataset(
+        torch.stack(val_data), torch.tensor(val_labels)
+    )
 
-    train_loader = DataLoader(train_set, batch_size=cfg.training_conf.batch_size, shuffle=True)
-    val_loader = DataLoader(val_set, batch_size=cfg.training_conf.batch_size, shuffle=False)
+    train_loader = DataLoader(
+        train_set, batch_size=cfg.training_conf.batch_size, shuffle=True
+    )
+    val_loader = DataLoader(
+        val_set, batch_size=cfg.training_conf.batch_size, shuffle=False
+    )
 
     return train_loader, val_loader
+
 
 @hydra.main(config_path="../../configs", config_name="config", version_base=None)
 def train_model(cfg: DictConfig):
@@ -112,16 +131,16 @@ def train_model(cfg: DictConfig):
     wandb_logger = WandbLogger(
         project="rice-classification",
         config=OmegaConf.to_container(cfg, resolve=True),
-        name=cfg.get('experiment_name', 'default_experiment')
+        name=cfg.get("experiment_name", "default_experiment"),
     )
 
     # Model checkpoint callback
     checkpoint_callback = ModelCheckpoint(
-        dirpath='models',
-        filename='rice-model-{epoch:02d}-{val_acc:.2f}',
+        dirpath="models",
+        filename="rice-model-{epoch:02d}-{val_acc:.2f}",
         save_top_k=3,
-        monitor='val_acc',
-        mode='max'
+        monitor="val_acc",
+        mode="max",
     )
 
     # Initialize Lightning module
@@ -130,9 +149,9 @@ def train_model(cfg: DictConfig):
     # Initialize Trainer
     trainer = pl.Trainer(
         max_epochs=cfg.training_conf.num_epochs,
-        accelerator='gpu' if torch.cuda.is_available() else 'cpu',
+        accelerator="gpu" if torch.cuda.is_available() else "cpu",
         logger=wandb_logger,
-        callbacks=[checkpoint_callback]
+        callbacks=[checkpoint_callback],
     )
 
     # Train the model
@@ -157,8 +176,10 @@ def train_model(cfg: DictConfig):
     torch.save(model, model_path_full)
     print(f"Full model saved as {model_path_full}")
 
+
 def main():
     train_model()
+
 
 if __name__ == "__main__":
     main()
