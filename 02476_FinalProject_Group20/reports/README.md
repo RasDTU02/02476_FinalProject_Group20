@@ -78,11 +78,11 @@ will check the repositories and the code to verify your answers.
 * [x] Get some continuous integration running on the GitHub repository (M17) ALEXANDER
 * [x] Add caching and multi-os/python/pytorch testing to your continuous integration (M17) ALEXANDER
 * [x] Add a linting step to your continuous integration (M17) ALEXANDER
-* [ ] Add pre-commit hooks to your version control setup (M18) RASMUS
+* [x] Add pre-commit hooks to your version control setup (M18)
 * [x] Add a continues workflow that triggers when data changes (M19) ALEXANDER
 * [x] Add a continues workflow that triggers when changes to the model registry is made (M19) ALEXANDER
-* [ ] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21) RASMUS
-* [ ] Create a trigger workflow for automatically building your docker images (M21) RASMUS
+* [ ] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21)
+* [x] Create a trigger workflow for automatically building your docker images (M21)
 * [ ] Get your model training in GCP using either the Engine or Vertex AI (M21)
 * [x] Create a FastAPI application that can do inference using your model (M22) ALEXANDER
 * [ ] Deploy your model in GCP using either Functions or Run as the backend (M23)
