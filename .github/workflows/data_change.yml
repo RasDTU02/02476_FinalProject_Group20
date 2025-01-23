@@ -15,10 +15,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install DVC
-        run: pip install dvc
+        run: |
+          pip install dvc
+          cd 02476_FinalProject_Group20
 
       - name: Pull Data
-        run: dvc pull
+        run: |
+          cd 02476_FinalProject_Group20
+          dvc pull
 
       - name: Verify Data Integrity
-        run: dvc status
+        run: |
+          cd 02476_FinalProject_Group20
+          dvc status

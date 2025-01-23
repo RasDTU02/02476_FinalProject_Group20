@@ -28,7 +28,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./Dockerfile
+          context: ./02476_FinalProject_Group20
+          file: ./02476_FinalProject_Group20/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/mlops_project:latest
