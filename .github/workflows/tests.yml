@@ -1,61 +1,65 @@
-name: Unit Tests with Multi-OS and Multi-Python/PyTorch
+name: Run Tests
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-  pull_request:
+  push:
     branches:
       - main
 
 jobs:
   test:
-    runs-on: ${{ matrix.operating-system }}
+    runs-on: ${{ matrix.os }}
+
     strategy:
       matrix:
-        operating-system: ["ubuntu-latest", "windows-latest", "macos-latest"]
-        python-version: ["3.12", "3.11"]
-        pytorch-version: ["2.0.0", "2.1.0"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.11", "3.12"]
 
     steps:
-      # Step 1: Checkout the code
+      # Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Set up Python
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      # Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-          cache: "pip"
 
-      # Step 3: Install dependencies
+      # Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install torch==${{ matrix.pytorch-version }} torchvision
           pip install -r requirements.txt
-          pip install -r requirements_dev.txt
 
-      # Step 4: Run linting
-      - name: Run linting
+      # Run tests with pytest
+      - name: Run pytest
         run: |
-          pip install flake8
-          flake8 src/ tests/
+          pytest tests/ --disable-warnings --cov=src
 
-      # Step 5: Run tests and generate coverage reports
-      - name: Run tests & coverage
-        run: |
-          coverage run -m pytest tests/
-          coverage report -m
-          coverage html
-
-      # Step 6: Upload coverage report
+      # Upload coverage report
       - name: Upload coverage report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: htmlcov/
-      - name: Run API tests
-        run: |
-          pytest tests/test_api.py
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install flake8
+        run: pip install flake8
+
+      - name: Run linter
+        run: flake8 src/ tests/
