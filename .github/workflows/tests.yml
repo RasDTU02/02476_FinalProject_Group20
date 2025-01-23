@@ -1,0 +1,61 @@
+name: Unit Tests with Multi-OS and Multi-Python/PyTorch
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: ["ubuntu-latest", "windows-latest", "macos-latest"]
+        python-version: ["3.12", "3.11"]
+        pytorch-version: ["2.0.0", "2.1.0"]
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch==${{ matrix.pytorch-version }} torchvision
+          pip install -r requirements.txt
+          pip install -r requirements_dev.txt
+
+      # Step 4: Run linting
+      - name: Run linting
+        run: |
+          pip install flake8
+          flake8 src/ tests/
+
+      # Step 5: Run tests and generate coverage reports
+      - name: Run tests & coverage
+        run: |
+          coverage run -m pytest tests/
+          coverage report -m
+          coverage html
+
+      # Step 6: Upload coverage report
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: htmlcov/
+      - name: Run API tests
+        run: |
+          pytest tests/test_api.py
