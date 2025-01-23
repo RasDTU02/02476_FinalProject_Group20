@@ -10,4 +10,5 @@ def get_pretrained_model(num_classes: int):
     )  # Load pre-trained ResNet18
     # Replace the final fully connected layer for our dataset
     model.fc = nn.Linear(model.fc.in_features, num_classes)
+    a=1+1
     return model
