@@ -7,9 +7,9 @@
 [x] Question 7
 [x] Question 8
 [x] Question 9
-[ ] Question 10
-[ ] Question 11
-[ ] Question 12
+[ ] Question 10 # Alexanders opgave (DVC)
+[ ] Question 11 # Alexanders opgave (Continious Integration)
+[x] Question 12
 [ ] Question 13
 [ ] Question 14
 [ ] Question 15

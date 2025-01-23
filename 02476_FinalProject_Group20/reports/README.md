@@ -313,7 +313,9 @@ If we were interested in working on the same areas of the project at the same ti
 >
 > Answer:
 
---- question 12 fill here ---
+To implement the configuration of experiments, the different parameters were defined in a .yaml file, which allowed us to seperate different parameters into categories, which created a better structure. Then, these parameters were accesed by Hydra, which also managed these in our code.
+
+In this project, two experiments were created in the folder "configs/experiments". Experiment 1 implemented more basic training parameters, such as learning rate and optimizer choice. Experiment 2 aimed to test different model architectures by configuring a different amount of hidden units in the layer.
 
 ### Question 13
 
