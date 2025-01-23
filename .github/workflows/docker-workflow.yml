@@ -1,14 +1,16 @@
-name: Docker Workflow
+name: Docker Build and Push
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'Dockerfile'
-      - '.github/workflows/docker-workflow.yml'
+      - '.github/workflows/docker-build.yml'
 
 jobs:
-  docker-build:
-    runs-on: ubuntu-20.04
+  build-and-push:
+    runs-on: ubuntu-20.04  # Use a stable runner
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,7 +21,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and Push Docker Image
+      - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
