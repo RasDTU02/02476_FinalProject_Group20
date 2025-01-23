@@ -3,5 +3,5 @@ defaults:
   - _self_
   - model_conf: default
   - training_conf: default
-seed: 42  # eller en anden værdi du ønsker at bruge
+seed: 42
 experiment_name: "default_experiment"

@@ -1,4 +1,5 @@
 # train.py
+# command line interface: 'train'
 # To run default training: python src/rice/train.py (remember to set cd to the root of the project)
 # To run experiment: python src/rice/train.py experiment=exp1
 # To add a parameter: python src/rice/train.py +experiment.new_param=42
@@ -11,13 +12,13 @@ import torch.optim as optim
 import torch.nn as nn
 from torch.utils.data import DataLoader
 from torchvision import transforms
-from model import get_pretrained_model
+from .model import get_pretrained_model
 from pathlib import Path
 from tqdm import tqdm
 import os
 from PIL import Image
 from datetime import datetime
-from logger import get_logger
+from .logger import get_logger
 import wandb
 from torch.profiler import profile, record_function, ProfilerActivity
 
@@ -143,7 +144,7 @@ def train_model(cfg: DictConfig):
 
 
 def load_data(cfg: DictConfig):
-    """Load processed JPG images and optionally limit the number of images."""
+    """Load processed JPG images and optionally limit the number of images based on sample_ratio and max_images."""
     if not Path("data/raw/Rice_Image_Dataset").exists():
         raise FileNotFoundError(f"Processed data path 'data/raw/Rice_Image_Dataset' does not exist.")
 
@@ -170,8 +171,9 @@ def load_data(cfg: DictConfig):
             log.warning(f"Warning: No images found in {class_dir}")
             continue
 
-        if cfg.training_conf.max_images:
-            images = images[:cfg.training_conf.max_images]  # Begræns antallet af billeder pr. klasse
+        # Begræns antallet af billeder baseret på sample_ratio
+        num_samples = min(cfg.training_conf.max_images, int(len(images) * cfg.training_conf.sample_ratio))
+        images = images[:num_samples]  # Brug mindste værdi mellem max_images og sample_ratio*antal billeder
 
         split_idx = int(0.8 * len(images))  # 80% train, 20% test
         for i, img_path in enumerate(images):
