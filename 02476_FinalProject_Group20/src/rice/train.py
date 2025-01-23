@@ -43,6 +43,12 @@ def initialize_wandb(cfg: DictConfig):
 
 @hydra.main(config_path="../../configs", config_name="config", version_base=None)
 def train_model(cfg: DictConfig):
+    log.info("Training configuration:")
+    log.info(f"Batch size: {cfg.training_conf.batch_size}")
+    log.info(f"Learning rate: {cfg.training_conf.learning_rate}")
+    log.info(f"Number of epochs: {cfg.training_conf.num_epochs}")
+    log.info(f"Experiment name: {cfg.experiment_name}")
+
     # Sæt seed for reproducerbarhed
     set_seed(cfg.seed)
     
