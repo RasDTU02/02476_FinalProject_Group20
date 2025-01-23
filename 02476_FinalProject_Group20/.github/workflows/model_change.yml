@@ -7,6 +7,9 @@ on:
       - 'src/rice/model.py'  # Triggers on changes to model.py
 
 jobs:
+
+
+  
   check-model-changes:
     runs-on: ubuntu-latest
     steps:
