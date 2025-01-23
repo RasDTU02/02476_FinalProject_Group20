@@ -183,7 +183,9 @@ By using the combination of conda and pip, and storing a list of the dependencie
 >
 > Answer:
 
---- question 5 fill here ---
+The cookiecutter provided in the lectures were initialized and the folder structure was used as the template for this project. The folder data, configs, models, reports, src and tests were used for this project. The only folder that was deleted was the "notebook", because it was not necessary. Different folders were added such as dockerfile and wandb to store the data that was generated and used by these applications.
+
+This structure provided a good framework for our project, and organizing the different parts of the Machine Learning Operations technique. By using the src folder to develop the different methods for extracting, initializing, training and testing, and then using the data to gather the training data, created a good structure for organizing. The output was stored in output, and tests was stored in tests. This made it easy to find files and structure it.
 
 ### Question 6
 
@@ -222,9 +224,7 @@ The code is also well-documented, and contains a short description of the purpos
 >
 > Answer:
 
-We implemented tests for API, data, model and training. For the API, we made two tests. The first one checked if the train command sucessfully executed, and the other checked if the evaluate command runs with a checkpoint.
-
-For the data, we ma
+In total, there were 7 different tests that was implemented to test the stability and integrity of our code. Primarily, we made tests for the RiceDataLoader, since it was important to verify it's ability to download, extract, load and transform to handle subsets and correct gathering of the data. Additionally, we made tests to test the train function for the data. These tests were focused around evaluating the ability to intialize, forward pass, save/load and perform training steps to ensure the model learned without any issues.
 
 ### Question 8
 
@@ -239,7 +239,11 @@ For the data, we ma
 >
 > Answer:
 
---- question 8 fill here ---
+Our total code coverage was calculated to be 11%. This percentage shows that it was a very small proportion of the code that was being tested, indicating major parts of the code remains untested, potentially still containing bugs and errors.
+
+Even if the code coverage was calculated to be 100%, it would still not be sufficient to say that the code was free from errors. This is due to the fact, that the tests are looking for if the lines of code are being executed during the test, but does not verify the validity of the code. This leaves some uncertainty towards the validity of the tests.
+
+In a complex code setup like this, small details can still make errors, even though the unit test is passed. Details such as logic, unintented behavior and edge cases are all examples of this.
 
 ### Question 9
 
