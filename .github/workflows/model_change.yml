@@ -3,8 +3,8 @@ name: Model Registry and Code Workflow
 on:
   push:
     paths:
-      - 'models/**'        # Triggers on changes to the models folder
-      - 'src/rice/model.py'  # Triggers on changes to model.py
+      - '02476_FinalProject_Group20/models/**'        # Triggers on changes to the models folder
+      - '02476_FinalProject_Group20/src/rice/model.py'  # Triggers on changes to model.py
 
 jobs:
   check-model-changes:
@@ -15,6 +15,7 @@ jobs:
 
       - name: Verify Model Changes
         run: |
+          cd 02476_FinalProject_Group20
           echo "Changes detected in model registry or model code"
           ls models/ || echo "No changes in models folder"
           cat src/rice/model.py || echo "No changes in model.py"

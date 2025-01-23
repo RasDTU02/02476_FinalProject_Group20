@@ -31,12 +31,14 @@ jobs:
       # Install dependencies
       - name: Install dependencies
         run: |
+          cd 02476_FinalProject_Group20
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       # Run tests with pytest
       - name: Run pytest
         run: |
+          cd 02476_FinalProject_Group20
           pytest tests/ --disable-warnings --cov=src
 
       # Upload coverage report
@@ -44,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: htmlcov/
+          path: 02476_FinalProject_Group20/htmlcov/
 
   lint:
     runs-on: ubuntu-latest
@@ -59,7 +61,11 @@ jobs:
           python-version: "3.12"
 
       - name: Install flake8
-        run: pip install flake8
+        run: |
+          cd 02476_FinalProject_Group20
+          pip install flake8
 
       - name: Run linter
-        run: flake8 src/ tests/
+        run: |
+          cd 02476_FinalProject_Group20
+          flake8 src/ tests/
