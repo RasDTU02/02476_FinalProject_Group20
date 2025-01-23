@@ -19,6 +19,7 @@ from PIL import Image
 from datetime import datetime
 from rice.logger import get_logger
 import wandb
+from torch.profiler import profile, record_function, ProfilerActivity
 
 import logging
 
@@ -66,46 +67,53 @@ def train_model(cfg: DictConfig):
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=cfg.training_conf.learning_rate)
 
-    # Training loop
-    for epoch in range(cfg.training_conf.num_epochs):
-        running_loss = 0.0
-        model.train()
-        # Initialiser total og correct her
-        total = 0
-        correct = 0
-        
-        for images, labels in tqdm(train_loader, desc=f"Epoch {epoch+1}/{cfg.training_conf.num_epochs}"):
-            images, labels = images.to(device), labels.to(device)
+    # Training loop with profiling
+    with profile(activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], 
+                 schedule=torch.profiler.schedule(wait=1, warmup=1, active=3, repeat=2),
+                 on_trace_ready=torch.profiler.tensorboard_trace_handler('./log'),
+                 record_shapes=True, 
+                 profile_memory=True, 
+                 with_stack=True) as prof:
+        for epoch in range(cfg.training_conf.num_epochs):
+            running_loss = 0.0
+            model.train()
+            total = 0
+            correct = 0
+            
+            for images, labels in tqdm(train_loader, desc=f"Epoch {epoch+1}/{cfg.training_conf.num_epochs}"):
+                with record_function("model_inference"):
+                    images, labels = images.to(device), labels.to(device)
 
-            optimizer.zero_grad()
-            outputs = model(images)
-            loss = criterion(outputs, labels)
-            loss.backward()
-            optimizer.step()
+                    optimizer.zero_grad()
+                    outputs = model(images)
+                    loss = criterion(outputs, labels)
+                    loss.backward()
+                    optimizer.step()
 
-            running_loss += loss.item()
-            _, predicted = torch.max(outputs, 1)
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
+                    running_loss += loss.item()
+                    _, predicted = torch.max(outputs, 1)
+                    total += labels.size(0)
+                    correct += (predicted == labels).sum().item()
+
+                    wandb.log({
+                        "batch_loss": loss.item(),
+                        "running_accuracy": 100 * correct / total
+                    })
+            
+            epoch_loss = running_loss / len(train_loader)
+            epoch_accuracy = 100 * correct / total
 
             wandb.log({
-                "batch_loss": loss.item(),
-                "running_accuracy": 100 * correct / total
+                "epoch": epoch + 1,
+                "epoch_loss": epoch_loss,
+                "epoch_accuracy": epoch_accuracy
             })
-        
-        epoch_loss = running_loss / len(train_loader)
-        epoch_accuracy = 100 * correct / total
 
-        wandb.log({
-            "epoch": epoch + 1,
-            "epoch_loss": epoch_loss,
-            "epoch_accuracy": epoch_accuracy
-        })
+            log.info(f"Epoch {epoch+1}: Loss {epoch_loss:.4f}, Accuracy {epoch_accuracy:.2f}%")
 
-        log.info(f"Epoch {epoch+1}: Loss {epoch_loss:.4f}, Accuracy {epoch_accuracy:.2f}%")
-
-        print(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
-        log.info(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
+            print(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
+            log.info(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
+            prof.step()  # Step the profiler at the end of each epoch
 
     print("Training complete.")
     log.info("Training complete.")
@@ -129,6 +137,10 @@ def train_model(cfg: DictConfig):
     torch.save(model, model_path_full) # Saves the full model
     print(f"Full model saved as {model_path_full}")
     log.info(f"Full model saved as {model_path_full}")
+
+    # Print profiler results
+    print(prof.key_averages().table(sort_by="self_cpu_time_total", row_limit=10))
+
 
 def load_data(cfg: DictConfig):
     """Load processed JPG images and optionally limit the number of images."""
