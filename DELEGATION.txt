@@ -57,8 +57,8 @@ Task 37: Create a specialized ML-deployment API (e.g., with ONNX or BentoML) (M2
 Task 38: Develop a frontend for your API (M26). Done
 
 Monitoring and Optimization
-Task 39: Check the model’s robustness to data drift (M27).
-Task 40: Deploy a drift detection API in the cloud (M27).
+Task 39: Check the model’s robustness to data drift (M27). DONE
+Task 40: Deploy a drift detection API in the cloud (M27). DONE
 Task 41: Add system metrics instrumentation to the API (M28).
 Task 42: Set up cloud monitoring for the instrumented application (M28).
 Task 43: Create alert systems in GCP for app behavior issues (M28).
