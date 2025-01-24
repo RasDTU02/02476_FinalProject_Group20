@@ -610,8 +610,6 @@ When developing the different unit tests, it was difficult to find test cases, t
 
 When setting up the logging, it was a struggle to keep the same timestamp for all the different subfolders. Often the logging time would be initialized in the moment of execution, and therefore create different timestamps for the same execution. This problem caused great confusion in the folder structure.
 
-
-
 ### Question 31
 
 > **State the individual contributions of each team member. This is required information from DTU, because we need to**
