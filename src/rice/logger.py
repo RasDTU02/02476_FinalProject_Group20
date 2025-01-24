@@ -15,7 +15,8 @@ log_filename = os.path.join(
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,  # Set logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    # Set logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[
         logging.FileHandler(log_filename),  # Write logs to a file

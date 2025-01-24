@@ -1,26 +1,29 @@
+from datetime import datetime
+from pathlib import Path
+
 import hydra
-from omegaconf import DictConfig, OmegaConf
+import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import transforms
-from torch.utils.data import DataLoader
-import pytorch_lightning as pl
-import wandb
-from pytorch_lightning.loggers import WandbLogger
-from pytorch_lightning.callbacks import ModelCheckpoint
-from pathlib import Path
-from datetime import datetime
-from PIL import Image
-
 from model import get_pretrained_model
+from omegaconf import DictConfig, OmegaConf
+from PIL import Image
+from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.loggers import WandbLogger
+from torch.utils.data import DataLoader
+from torchvision import transforms
+
+import wandb
 
 
 class RiceLightningModule(pl.LightningModule):
     def __init__(self, cfg: DictConfig):
         super().__init__()
         self.cfg = cfg
-        self.model = get_pretrained_model(num_classes=cfg.model_conf.num_classes)
+        self.model = get_pretrained_model(
+            num_classes=cfg.model_conf.num_classes
+        )
         self.criterion = nn.CrossEntropyLoss()
         self.save_hyperparameters()
 
@@ -36,7 +39,9 @@ class RiceLightningModule(pl.LightningModule):
         preds = torch.argmax(outputs, dim=1)
         acc = (preds == labels).float().mean()
 
-        self.log("train_loss", loss, on_step=True, on_epoch=False, prog_bar=True)
+        self.log(
+            "train_loss", loss, on_step=True, on_epoch=False, prog_bar=True
+        )
         self.log("train_acc", acc, on_step=True, on_epoch=False, prog_bar=True)
 
         return loss
@@ -118,7 +123,9 @@ def load_data(cfg: DictConfig):
     return train_loader, val_loader
 
 
-@hydra.main(config_path="../../configs", config_name="config", version_base=None)
+@hydra.main(
+    config_path="../../configs", config_name="config", version_base=None
+)
 def train_model(cfg: DictConfig):
     # Set seed for reproducibility
     pl.seed_everything(cfg.seed)

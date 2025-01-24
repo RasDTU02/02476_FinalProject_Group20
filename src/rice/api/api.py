@@ -1,9 +1,10 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
-from pydantic import BaseModel
-from PIL import Image
-import torch
-from torchvision import transforms as T
 from pathlib import Path
+
+import torch
+from fastapi import FastAPI, File, HTTPException, UploadFile
+from PIL import Image
+from pydantic import BaseModel
+from torchvision import transforms as T
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -30,7 +31,11 @@ def load_model():
 def preprocess_image(image_bytes):
     """Preprocess the uploaded image for inference."""
     transform = T.Compose(
-        [T.Resize((128, 128)), T.ToTensor(), T.Normalize(mean=[0.5], std=[0.5])]
+        [
+            T.Resize((128, 128)),
+            T.ToTensor(),
+            T.Normalize(mean=[0.5], std=[0.5]),
+        ]
     )
     image = Image.open(image_bytes).convert("RGB")
     return transform(image).unsqueeze(0)

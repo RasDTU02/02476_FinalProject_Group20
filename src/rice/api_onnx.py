@@ -1,8 +1,7 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
-from pydantic import BaseModel
-import onnxruntime as ort
-from PIL import Image
 import numpy as np
+import onnxruntime as ort
+from fastapi import FastAPI, File, HTTPException, UploadFile
+from PIL import Image
 from torchvision import transforms as T
 
 app = FastAPI()
@@ -16,7 +15,11 @@ ort_session = ort.InferenceSession(MODEL_PATH)
 def preprocess_image(image_bytes):
     """Preprocess image for ONNX inference."""
     transform = T.Compose(
-        [T.Resize((128, 128)), T.ToTensor(), T.Normalize(mean=[0.5], std=[0.5])]
+        [
+            T.Resize((128, 128)),
+            T.ToTensor(),
+            T.Normalize(mean=[0.5], std=[0.5]),
+        ]
     )
     image = Image.open(image_bytes).convert("RGB")
     image = transform(image).unsqueeze(0).numpy()
