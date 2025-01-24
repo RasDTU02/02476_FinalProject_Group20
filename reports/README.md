@@ -52,21 +52,21 @@ will check the repositories and the code to verify your answers.
 * [x] Make sure that all team members have write access to the GitHub repository (M5)
 * [x] Create a dedicated environment for you project to keep track of your packages (M2)
 * [x] Create the initial file structure using cookiecutter with an appropriate template (M6)
-* [x] Fill out the `data.py` file such that it downloads whatever data you need and preprocesses it (if necessary) (M6)
-* [x] Add a model to `model.py` and a training procedure to `train.py` and get that running (M6)
+* [x] Fill out the `data.py` file such that it downloads whatever data you need and preprocesses it (if necessary) (M6) BJØRN
+* [x] Add a model to `model.py` and a training procedure to `train.py` and get that running (M6) BJØRN
 * [ ] Remember to fill out the `requirements.txt` and `requirements_dev.txt` file with whatever dependencies that you
     are using (M2+M6) # gør vi til sidst.
-* [x] Remember to comply with good coding practices (`pep8`) while doing the project (M7) # gør vi til sidst.
+* [x] Remember to comply with good coding practices (`pep8`) while doing the project (M7) BJØRN
 * [x] Do a bit of code typing and remember to document essential parts of your code (M7) # Gør vi til sidst
 * [x] Setup version control for your data or part of your data (M8)
-* [x] Add command line interfaces and project commands to your code where it makes sense (M9) ()
+* [x] Add command line interfaces and project commands to your code where it makes sense (M9) () BJØRN
 * [x] Construct one or multiple docker files for your code (M10)
 * [x] Build the docker files locally and make sure they work as intended (M10)
-* [x] Write one or multiple configurations files for your experiments (M11)
-* [x] Used Hydra to load the configurations and manage your hyperparameters (M11)
-* [x] Use profiling to optimize your code (M12)
-* [x] Use logging to log important events in your code (M14)
-* [x] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14)
+* [x] Write one or multiple configurations files for your experiments (M11) BJØRN
+* [x] Used Hydra to load the configurations and manage your hyperparameters (M11) BJØRN
+* [x] Use profiling to optimize your code (M12) BJØRN
+* [x] Use logging to log important events in your code (M14) BJØRN
+* [x] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14) BJØRN
 * [x] Consider running a hyperparameter optimization sweep (M14)
 * [x] Use PyTorch-lightning (if applicable) to reduce the amount of boilerplate in your code (M15)
 
@@ -93,7 +93,7 @@ will check the repositories and the code to verify your answers.
 
 ### Week 3
 
-* [x] Check how robust your model is towards data drifting (M27)
+* [x] Check how robust your model is towards data drifting (M27) BJØRN
 * [ ] Deploy to the cloud a drift detection API (M27)
 * [ ] Instrument your API with a couple of system metrics (M28)
 * [ ] Setup cloud monitoring of your instrumented application (M28)
@@ -617,4 +617,6 @@ When setting up the logging, it was a struggle to keep the same timestamp for al
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
---- question 31 fill here ---
+The individual contributions of each team member can be seen on the checklist above.
+
+If we encountered problems with the code, we used ChatGPT and Grok to help us debug, so we could continue coding. We have tried to stick to the coding we learned in the course, but to tailor it to our project, AI has helped us along the way. AI has been especially good at getting different codes to work together.
