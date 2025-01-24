@@ -29,18 +29,17 @@ def set_seed(seed):
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
 
-def initialize_wandb(cfg: DictConfig):
-    # Fjern eventuelle felter, der ikke kan konverteres til JSON
+def initialize_wandb(cfg: DictConfig): # Initialize Weights & Biases
     cfg_dict = OmegaConf.to_container(cfg, resolve=True)
     safe_cfg = {k: v for k, v in cfg_dict.items() if isinstance(v, (int, float, str, bool, list, dict, type(None)))}
     
     wandb.init(
-        project="rice-classification", # Replace with your own project name
+        project="rice-classification",
         config=safe_cfg, # Save hydra config
-        name=safe_cfg.get('experiment_name', 'default_experiment'), # The first argument is the name of the run, the second one is if the first one can not be used
+        name=safe_cfg.get('experiment_name', 'default_experiment'),
     )
 
-@hydra.main(config_path="../../configs", config_name="config", version_base=None)
+@hydra.main(config_path="../../configs", config_name="config", version_base=None) # Load configuration
 def train_model(cfg: DictConfig):
     log.info("Training configuration:")
     log.info(f"Batch size: {cfg.training_conf.batch_size}")
@@ -48,7 +47,7 @@ def train_model(cfg: DictConfig):
     log.info(f"Number of epochs: {cfg.training_conf.num_epochs}")
     log.info(f"Experiment name: {cfg.experiment_name}")
 
-    # Sæt seed for reproducerbarhed
+    # Sæt seed for reproducibility
     set_seed(cfg.seed)
     
     initialize_wandb(cfg)
@@ -136,7 +135,7 @@ def train_model(cfg: DictConfig):
     print(f"Full model saved as {model_path_full}")
     log.info(f"Full model saved as {model_path_full}")
 
-    # Print profiler results
+    # Print profiling results
     print(prof.key_averages().table(sort_by="self_cpu_time_total", row_limit=10))
 
 
@@ -156,7 +155,7 @@ def load_data(cfg: DictConfig):
     test_data = []
     test_labels = []
 
-    # Filtrér kun mapper som ikke er tekstfiler eller skjulte filer
+    # A list comprehension that filters out non-directory files and hidden files
     class_dirs = [d for d in Path("data/raw/Rice_Image_Dataset").iterdir() if d.is_dir() and not d.name.startswith('.')]
 
     for class_idx, class_dir in enumerate(class_dirs):
@@ -168,9 +167,9 @@ def load_data(cfg: DictConfig):
             log.warning(f"Warning: No images found in {class_dir}")
             continue
 
-        # Begræns antallet af billeder baseret på sample_ratio
+        # Limit the number of images based on sample_ratio and max_images
         num_samples = min(cfg.training_conf.max_images, int(len(images) * cfg.training_conf.sample_ratio))
-        images = images[:num_samples]  # Brug mindste værdi mellem max_images og sample_ratio*antal billeder
+        images = images[:num_samples]
 
         split_idx = int(0.8 * len(images))  # 80% train, 20% test
         for i, img_path in enumerate(images):
@@ -194,7 +193,6 @@ def load_data(cfg: DictConfig):
     train_set = torch.utils.data.TensorDataset(torch.stack(train_data), torch.tensor(train_labels))
     test_set = torch.utils.data.TensorDataset(torch.stack(test_data), torch.tensor(test_labels))
 
-    # Brug batch_size fra konfigurationen
     return DataLoader(train_set, batch_size=cfg.training_conf.batch_size, shuffle=True), DataLoader(test_set, batch_size=cfg.training_conf.batch_size, shuffle=False)
 
 def main():

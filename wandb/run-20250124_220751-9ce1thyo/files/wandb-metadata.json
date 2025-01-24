@@ -1,0 +1,33 @@
+{
+  "os":  "macOS-10.16-x86_64-i386-64bit",
+  "python":  "CPython 3.11.11",
+  "startedAt":  "2025-01-24T21:07:52.211978Z",
+  "program":  "/opt/anaconda3/envs/mlops/bin/train",
+  "git":  {
+    "remote":  "https://github.com/RasDTU02/02476_FinalProject_Group20",
+    "commit":  "56a6aa2dee8f1f5db26238f0a46cbf06f2a11eac"
+  },
+  "email":  "s224184@dtu.dk",
+  "root":  "/Users/bsm/Desktop/02476_FinalProject_Group20",
+  "host":  "AirtilhendeBjrn",
+  "executable":  "/opt/anaconda3/envs/mlops/bin/python",
+  "cpu_count":  2,
+  "cpu_count_logical":  4,
+  "disk":  {
+    "/":  {
+      "total":  "121018208256",
+      "used":  "116483584000"
+    },
+    "/System/Volumes/Data":  {
+      "total":  "121018208256",
+      "used":  "116483584000"
+    }
+  },
+  "memory":  {
+    "total":  "8589934592"
+  },
+  "cpu":  {
+    "count":  2,
+    "countLogical":  4
+  }
+}
