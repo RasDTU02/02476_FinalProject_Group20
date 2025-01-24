@@ -1,0 +1,29 @@
+Python libraries used in the MLOps course:
+ - PyTorch - Bruges til deep learning-modeller og eksport til ONNX​
+ - PyTorch Lightning - Forenkler træning af PyTorch-modeller.
+ - ONNX - Bruges til at eksportere modeller og køre dem i ONNX-runtime​.
+ - ONNX Runtime - Til at køre ONNX-modeller.
+ - NumPy - Bruges til numeriske operationer og billedbehandling​.
+ - Pandas - Anvendes til datamanipulation og håndtering af datasæt​.
+ - Scikit-learn - Bruges til machine learning-opgaver som klassifikation​.
+ - Matplotlib - Anvendes til visualisering​.
+ - DVC (Data Version Control) - Bruges til versionering af data.
+ - DVC-GDrive - Bruges til DVC-fjernlagerintegration med Google Drive.
+ - Python-dotenv - Bruges til at håndtere miljøvariabler.
+ - Pytest - Testframework til unit tests​.
+ - Pytest-cov - Bruges sammen med Pytest til testdækning​.
+ - Ruff - Til kodeformatering og linting.
+ - Cookiecutter - Til oprettelse af projektskabeloner​.
+ - Evidently - Bruges til overvågning og data drift-analyse​.
+ - Torchvision - Bruges til computer vision og modeltræning​.
+ - BentoML - Til at bygge og implementere ML-modeller som services.
+
+
+Python libraries that we use but are not given in the course:
+ - PIL (Image)
+ - pathlib
+ - requests
+ - tqdm
+ - streamlit
+ - logging
+ - datetime
