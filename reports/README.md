@@ -380,6 +380,7 @@ It would be sufficient to run different experiments and show the graphs here, bu
 > *training docker image: `docker run trainer:latest lr=1e-3 batch_size=64`. Link to docker file: <weblink>*
 >
 > Answer:
+
 For this project, a dockerfile was created to make a containerized application of running the entire pipeline with the default setting. The idea behind this dockerfile is to show how to model works, and what different proccesses are being executed. The default settings contain a 2 epoch training, and storing of the different logs for the performance of the model. The dockerfile also stored the model as a .pth file, such that the model can be reused.
 
 To run the dockerfile, the docker needs to be built by running "docker build -t rice-classifier .". After this is done, you can execute the command "docker run rice-classifier". This will initialize and run the model.
@@ -504,10 +505,10 @@ We succesfully wrote an API for our model using FastPI, which a allowed us to cr
 >
 > Answer:
 
-We successfully deployed our API locally for testing and validation. Using FastAPI's uvicorn server, the API was hosted on http://127.0.0.1:8000. Locally, the API could be used using tools like curl. Example is testing the /predict endpoint, where we could use the command 
+We successfully deployed our API locally for testing and validation. Using FastAPI's uvicorn server, the API was hosted on http://127.0.0.1:8000. Locally, the API could be used using tools like curl. Example is testing the /predict endpoint, where we could use the command
 curl -X POST -F "file=@data\raw\Rice_Image_Dataset\Arborio\Arborio (1).jpg" http://127.0.0.1:8000/predict
-With this file, which is an Arborio, the model predicted a karacadag, which i think is explained by the normalization. 
-We didn't deploy it to the cloud, however we tried to do a frontend and using onnx, but again the dependicies made it really tough to do so. 
+With this file, which is an Arborio, the model predicted a karacadag, which i think is explained by the normalization.
+We didn't deploy it to the cloud, however we tried to do a frontend and using onnx, but again the dependicies made it really tough to do so.
 Our next steps would involve containerizing the application with docker and deploying it on GCP using Cloud run, but at the moment the local deployment has already proven functional and stable.
 
 ### Question 25
@@ -644,4 +645,4 @@ When setting up the logging, it was a struggle to keep the same timestamp for al
 
 The individual contributions of each team member can be seen on the checklist above.
 
-If we encountered problems with the code, we used ChatGPT and Grok to help us debug, so we could continue coding. We have tried to stick to the coding we learned in the course, but to tailor it to our project, AI has helped us along the way. AI has been especially good at getting different codes to work together.
+If we encountered problems with the code, we used ChatGPT and Grok to help us debug, so we could continue coding. We have tried to stick to the coding we learned in the course, but to tailor it to our project, AI has helped us along the way. AI has been especially good at getting different codes to work together. Sometimes our comments were not specified accurately, so AI helped to make these statements more accurate and clear.
