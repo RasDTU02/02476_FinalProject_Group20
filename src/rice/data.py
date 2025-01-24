@@ -6,14 +6,17 @@ import requests
 import zipfile
 from pathlib import Path
 from tqdm import tqdm
+import pandas as pd
 
 class RiceDataLoader:
     RAW_DATA_PATH = Path("data/raw")
+    CSV_FILES_PATH = Path("data/csv_files")  # New folder for CSV files
     ZIP_PATH = RAW_DATA_PATH / "rice_dataset.zip"
     DOWNLOAD_URL = "https://www.muratkoklu.com/datasets/vtdhnd09.php"
 
     def __init__(self, root_dir: str = "data/raw"):
         self.root_dir = root_dir
+        self.CSV_FILES_PATH.mkdir(parents=True, exist_ok=True)  # Create csv_files directory
 
     def download_dataset(self):
         """Download the rice dataset zip file with a progress bar if it doesn't already exist."""
@@ -55,9 +58,48 @@ class RiceDataLoader:
             zip_ref.extractall(self.RAW_DATA_PATH)
         print("Extraction complete.")
 
+    def create_csv_files(self):
+        """Create CSV files for training and test sets from the extracted dataset."""
+        dataset_path = self.RAW_DATA_PATH / "Rice_Image_Dataset"
+        if not dataset_path.exists():
+            print("Dataset not found. Please extract the dataset first.")
+            return
+
+        # Collect all image paths and their labels
+        data = []
+        for class_dir in dataset_path.iterdir():
+            if class_dir.is_dir():
+                label = class_dir.name
+                for img_path in class_dir.glob("*.jpg"):
+                    data.append((str(img_path), label))
+
+        # Shuffle the data
+        import random
+        random.shuffle(data)
+
+        # Split into train and test
+        split_idx = int(0.8 * len(data))
+        train_data = data[:split_idx]
+        test_data = data[split_idx:]
+
+        # Create DataFrames
+        train_df = pd.DataFrame(train_data, columns=['image_path', 'label'])
+        test_df = pd.DataFrame(test_data, columns=['image_path', 'label'])
+
+        # Save to CSV in the new directory
+        train_csv_path = self.CSV_FILES_PATH / "train.csv"
+        test_csv_path = self.CSV_FILES_PATH / "test.csv"
+
+        train_df.to_csv(train_csv_path, index=False)
+        test_df.to_csv(test_csv_path, index=False)
+
+        print(f"Training CSV saved to {train_csv_path}")
+        print(f"Test CSV saved to {test_csv_path}")
+
 if __name__ == "__main__":
     data_loader = RiceDataLoader()
     data_loader.download_dataset()
     data_loader.extract_data()
+    data_loader.create_csv_files()
 
     print("Data preparation complete.")
