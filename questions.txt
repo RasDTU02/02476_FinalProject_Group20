@@ -20,6 +20,6 @@
 [ ] Question 25 ALEXANDER
 [ ] Question 26 BJØRN
 [ ] Question 28 ALEXANDER / BJØRN
-[ ] Question 29 RASMUS
+[x] Question 29 RASMUS
 [x] Question 30
 [ ] Question 31
