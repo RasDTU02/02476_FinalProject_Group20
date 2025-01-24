@@ -1,22 +1,22 @@
+# data_drift.py
 import pandas as pd
 import numpy as np
 from pathlib import Path
 from sklearn.model_selection import train_test_split
 from evidently.report import Report
 from evidently.metric_preset import DataDriftPreset
-from evidently.pipeline.column_mapping import ColumnMapping  # Ændret import
+from evidently.pipeline.column_mapping import ColumnMapping
 
 def create_simulated_drift_data(reference_data, current_data, target_column):
     # Simulate Feature Drift
-    # Da vi kun har billedstier, kan vi ikke direkte tilføje støj til features.
-    # Vi kan dog simulere en form for drift ved at ændre billedstierne tilfældigt.
-    # For eksempel, vi kan tilføje en tilfældig streng til billedstien for at simulere en ændring i datafordelingen.
+    # we can simulate a form of drift by randomly changing the image paths.
+    # For example, we can add a random string to the image path to simulate a change in data distribution.
     current_data['image_path'] = current_data['image_path'].apply(lambda x: x + f'_{np.random.randint(1, 1000)}')
     
     # Simulate Label Drift
-    # Vi ændrer nogle labels for at simulere en ændring i klassefordelingen.
+    # We change some labels to simulate a change in class distribution.
     unique_labels = current_data[target_column].unique()
-    mask = np.random.choice([True, False], size=len(current_data), p=[0.1, 0.9])  # 10% chance for at ændre label
+    mask = np.random.choice([True, False], size=len(current_data), p=[0.1, 0.9])  # 10 % chance of editing the label
     current_data.loc[mask, target_column] = np.random.choice(unique_labels, size=sum(mask))
     
     return reference_data, current_data
@@ -34,10 +34,10 @@ def perform_data_drift(reference_data, current_data, target_column):
     # Save report
     report_path = Path('data_drift')
     report_path.mkdir(parents=True, exist_ok=True)
-    report.save_html(str(report_path / 'data_drift_report.html'))  # Konvertere til streng
+    report.save_html(str(report_path / 'data_drift_report.html'))
 
 if __name__ == "__main__":
-    # Load your data
+    # Load data
     reference_data = pd.read_csv('/Users/bsm/Desktop/02476_FinalProject_Group20/data/csv_files/train.csv')
     current_data = pd.read_csv('/Users/bsm/Desktop/02476_FinalProject_Group20/data/csv_files/test.csv')
     target_column = 'label'
