@@ -1,6 +1,6 @@
 [x] Question 1
 [x] Question 2
-[ ] Question 3
+[ ] Question 3 ALEXANDER / BJØRN
 [x] Question 4
 [x] Question 5
 [x] Question 6
@@ -11,21 +11,15 @@
 [ ] Question 11 # Alexanders opgave (Continious Integration)
 [x] Question 12
 [x] Question 13
-[ ] Question 14
-[ ] Question 15
-[ ] Question 16
-[ ] Question 17
-[ ] Question 18
-[ ] Question 19
-[ ] Question 20
-[ ] Question 21
+[x] Question 14 RASMUS
+[ ] Question 15 RASMUS
+[x] Question 16
 [x] Question 22
-[ ] Question 23
-[ ] Question 24
-[ ] Question 25
-[ ] Question 26
-[ ] Question 27
-[ ] Question 28
-[ ] Question 29
+[ ] Question 23 ALEXANDER
+[ ] Question 24 ALEXANDER
+[ ] Question 25 ALEXANDER
+[ ] Question 26 BJØRN
+[ ] Question 28 ALEXANDER / BJØRN
+[ ] Question 29 RASMUS
 [x] Question 30
 [ ] Question 31
