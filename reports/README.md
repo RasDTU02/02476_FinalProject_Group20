@@ -570,6 +570,7 @@ For load testing, we used Locust to simulate concurrent users sending requests t
 > *implemented using ...*
 >
 > Answer:
+
 We tried to implement a frontend for our API and we have kept the file, we tried to also use ONNX, however while trying to export my onxx model, we ran into a incompatible dependencies problem once again.
 
 We implemented a drift detection service using Evidently. We simulated data drift by modifying our test dataset, introducing artificial changes to simulate real-world scenarios. This was integrated into our project to monitor data drift over time, ensuring our model's performance remains consistent despite changing data patterns. We achieved this by running 'data_drift.py' that compares our reference training data with the modified test data, generating a report that highlights any drift. This service helps us determine when model retraining might be necessary, enhancing our MLOps pipeline by providing proactive maintenance cues.
