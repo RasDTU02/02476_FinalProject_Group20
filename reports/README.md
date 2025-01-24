@@ -387,7 +387,7 @@ Lastly, the model also contained a seed, such that the model produced determinis
 >
 > Answer:
 
-We used different methods. First and foremost, we could often tell from the error code what was wrong, and then we went into the code and changed what was necessary. Additionally, we used the good old 'print'. We tried with loggers, but it was a new way for us to use them, so it has also been with the support of ChatGPT and Grok – these two language models have generally been a great help. We used profiling, but it was also sparingly, as we didn't have much experience with it. We tried using inline breakpoints a little, but this hasn't been a major necessity for us.
+We used different methods. First and foremost, we could often tell from the error code what was wrong, and then we went into the code and changed what was necessary. Additionally, we used the good old 'print'. We tried with loggers, but it was a new way for us to use them, so it has also been with the support of ChatGPT and Grok – these two language models have generally been a great help. We used profiling and have implemented it, but it was also sparingly, as we didn't have much experience with it but we could definitely see the potential of it! Therefore, next time when we have more time, we would absolutely use it on our project. We tried also using inline breakpoints a little, but this hasn't been a major necessity for us.
 
 ## Working in the cloud
 
