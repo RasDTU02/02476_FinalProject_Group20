@@ -276,9 +276,8 @@ If we were interested in working on the same areas of the project at the same ti
 > *pipeline*
 >
 > Answer:
-Yes, we used DVC, but we didn't really get much benefit from it, because eventhough the dataset was large (75000 into 5 classes), the files weren't. It definitely helped with the quality control being faster, but we didn't transform any of the data, so there was no quality change, and we moved the dataset around from the original zip file, to its natural archive folder name to the raw template folder to the processed template folder, because of all this, it actually became a bigger pain in the ass, because not only did we need to change the path of the dataset, but we also suddenly got many changes in the DVC pointers. I think it works really well for the next project we do, because we had some structural difficulties, which we won't repeat again and especially if we do more data preprocessing/augmentation.
 
---- question 10 fill here ---
+Yes, we used DVC, but we didn't really get much benefit from it, because eventhough the dataset was large (75000 into 5 classes), the files weren't. It definitely helped with the quality control being faster, but we didn't transform any of the data, so there was no quality change, and we moved the dataset around from the original zip file, to its natural archive folder name to the raw template folder to the processed template folder, because of all this, it actually became a bigger pain in the ass, because not only did we need to change the path of the dataset, but we also suddenly got many changes in the DVC pointers. I think it works really well for the next project we do, because we had some structural difficulties, which we won't repeat again and especially if we do more data preprocessing/augmentation.
 
 ### Question 11
 
@@ -294,11 +293,10 @@ Yes, we used DVC, but we didn't really get much benefit from it, because eventho
 > *here: <weblink>*
 >
 > Answer:
+
 We have organized our continuous integration into 5 seperate files: One for model control, one for data control, one for running docker, one for our unittests, and one for our API. They all are triggered by git pull or push but only on specific folders, except docker and API which is triggered on each push, which is a bad idea, when you have github email notifications on. They all either run on ubuntu latest or 20.04. We used either python 3.8 or 3.11. We did unittesting, linting, docker running and more. We tried to get multiple operating systems going and multiple python versions and also had a draft for the caching, however the biggest problem we have had throughout the course is that we kinda messed up our environment and thereby requirements.txt file, because we forgot to activate the specific environment and so we used each individual global environment and then pip freezed. which resulted in a lot of incompatibilities everywhere, i mean everywhere. Which made our CI for DOCker, multiple OS and unittests fail all the time. This is clearly reflected when analyzing our github actions, which all fail constantly, because of failing to install the correct dependicies. An example of a triggered workflow can be seen here
 https://github.com/RasDTU02/02476_FinalProject_Group20/actions/runs/12957220416/job/36145110643#step:4:29
 https://github.com/RasDTU02/02476_FinalProject_Group20/actions/runs/12956905315/job/36144190876#step:4:120
-
---- question 11 fill here ---
 
 ## Running code and tracking experiments
 
@@ -466,6 +464,7 @@ We used different methods. First and foremost, we could often tell from the erro
 > Answer:
 
 It was not possible for our model to be utilized in the cloud. The reason is due to several different factors. By implementing the model into a cloud system such as Engine or Vertex AI, it has to be compabitable with the eco-system for these platforms in order to function correctly. Different measures showed that the implementation of the model was inconsistent with the correct operational way, and therefore it was more safe to rely on the local storage of the model. Additionally, it was important to ackwoledge the size of our dataset. In these cases, it can become a bottleneck problem, since the handling of high concurrency loads can be a problem. By working in the format that was originally created, we ensured that our work remained stable and reliable.
+
 ## Deployment
 
 ### Question 23
@@ -480,8 +479,8 @@ It was not possible for our model to be utilized in the cloud. The reason is due
 > *to the API to make it more ...*
 >
 > Answer:
+
 We succesfully wrote an API for our model using FastPI, which a allowed us to create a restful interface. The API takes one of the saved model parameters through pytorch. The API includes an endpoint /predict that can accept an image file via a post request, where it then predicts the rice category. We did include a preprocessing step to ensure it had the correct dimensions 224 by 224 for our model and normalized it before inference.  The API provided a interface via Swagger UI. For invalid inputs we fagged them with http codes and messages, which made rthe API quite simple and efficient
---- question 23 fill here ---
 
 ### Question 24
 
@@ -496,14 +495,12 @@ We succesfully wrote an API for our model using FastPI, which a allowed us to cr
 > *`curl -X POST -F "file=@file.json"<weburl>`*
 >
 > Answer:
+
 We successfully deployed our API locally for testing and validation. Using FastAPI's uvicorn server, the API was hosted on http://127.0.0.1:8000. Locally, the API could be used using tools like curl. Example is testing the /predict endpoint, where we could use the command 
 curl -X POST -F "file=@data\raw\Rice_Image_Dataset\Arborio\Arborio (1).jpg" http://127.0.0.1:8000/predict
 With this file, which is an Arborio, the model predicted a karacadag, which i think is explained by the normalization. 
 We didn't deploy it to the cloud, however we tried to do a frontend and using onnx, but again the dependicies made it really tough to do so. 
 Our next steps would involve containerizing the application with docker and deploying it on GCP using Cloud run, but at the moment the local deployment has already proven functional and stable.
-
-
---- question 24 fill here ---
 
 ### Question 25
 
@@ -521,7 +518,6 @@ Our next steps would involve containerizing the application with docker and depl
 Yes, we performed both unit testing and load testing for our API. For unit testing, we used pytest to validate the /predict endpoint. This included testing valid and invalid inputs to ensure the API responded correctly in all scenarios. For example, we tested with valid image files and checked for expected predictions, while also handling non-image inputs gracefully.
 
 For load testing, we used Locust to simulate concurrent users sending requests to the API. Our load test involved 10 users with a spawn rate of 2 users per second, sending requests to the /predict endpoint. The results showed the API could handle up to 10 concurrent users with an average response time of approximately 2020 ms before performance began to degrade. This indicates that the API is suitable for light to moderate traffic but might need optimization or scaling for heavier loads.
---- question 25 fill here ---
 
 ### Question 26
 
