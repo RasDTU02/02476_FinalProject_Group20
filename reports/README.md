@@ -143,7 +143,7 @@ s224228, s224184, s225786
 >
 > Answer:
 
---- question 3 fill here ---
+'PIL' (Pillow) was crucial for image processing, allowing us to resize, format, and preprocess the rice images. This was essential for standardizing the image data, ensuring consistency in size and format, which directly improved the model's ability to learn from visual inputs by providing it with uniformly processed training data. 'pathlib' streamlined our data pipeline by managing file paths in a more intuitive and platform-independent way. This library made it easier to navigate through our project's directory structure and ensure our code worked seamlessly across different operating systems, reducing errors related to file path inconsistencies. 'requests' was used to automate the download of the rice dataset from an external URL. During this download, 'tqdm' added a progress bar, which improved user experience by providing visual feedback on the download progress. We used 'streamlit' to develop an interactive web application, which allowed us to visualize and interact with our model's results in real-time. This was crucial for both our understanding of the model's performance and for presenting our findings. Lastly, 'datetime' was integrated into our logging system to timestamp log entries, which helped in tracking when experiments were conducted, enhancing our ability to monitor and debug over time.
 
 ## Coding environment
 
@@ -572,7 +572,7 @@ For load testing, we used Locust to simulate concurrent users sending requests t
 > Answer:
 We tried to implement a frontend for our API and we have kept the file, we tried to also use ONNX, however while trying to export my onxx model, we ran into a incompatible dependencies problem once again.
 
---- question 28 fill here ---
+We implemented a drift detection service using Evidently. We simulated data drift by modifying our test dataset, introducing artificial changes to simulate real-world scenarios. This was integrated into our project to monitor data drift over time, ensuring our model's performance remains consistent despite changing data patterns. We achieved this by running 'data_drift.py' that compares our reference training data with the modified test data, generating a report that highlights any drift. This service helps us determine when model retraining might be necessary, enhancing our MLOps pipeline by providing proactive maintenance cues.
 
 ### Question 29
 
