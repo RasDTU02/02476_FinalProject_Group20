@@ -1,13 +1,12 @@
 # UDKAST
 
 import os
-from pprint import pprint
-from flask import Flask, request, flash, render_template
+
+from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 
 # Import the model
 from models import RiceModel
-
 
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "static")
 ALLOWED_EXTENSIONS = {"jpg", "jpeg"}
@@ -48,7 +47,9 @@ def upload():
 
         return "File failed"
     else:
-        return render_template("base.html", label=None, url=None, precision=None)
+        return render_template(
+            "base.html", label=None, url=None, precision=None
+        )
 
 
 @app.route("/json", methods=["POST"])
@@ -75,4 +76,7 @@ def json():
 
 
 def allowed_file(filename):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+    return (
+        "." in filename
+        and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+    )

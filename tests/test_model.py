@@ -1,6 +1,7 @@
 import pytest
 import torch
 import torch.nn as nn
+
 from src.rice.model import get_pretrained_model
 
 
@@ -11,8 +12,11 @@ def model():
 
 
 def test_model_initialization(model):
-    """Test if the model initializes correctly with the given number of classes."""
-    assert isinstance(model, nn.Module), "The model should be an instance of nn.Module"
+    """Test if the model initializes correctly
+    with the given number of classes."""
+    assert isinstance(
+        model, nn.Module
+    ), "The model should be an instance of nn.Module"
     assert hasattr(model, "fc"), "Model should have a fully connected layer"
 
 

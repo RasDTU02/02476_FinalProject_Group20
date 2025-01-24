@@ -1,26 +1,28 @@
 # train.py
-# To run default training: python src/rice/train.py (remember to set cd to the root of the project)
+# To run default training:
+# python src/rice/train.py (remember to set cd to the root of the project)
 # To run experiment: python src/rice/train.py experiment=exp1
 # To add a parameter: python src/rice/train.py +experiment.new_param=42
-# To change a parameter: python src/rice/train.py training_conf.learning_rate=0.0001
+# To change a parameter: python src/rice/train.py
+# training_conf.learning_rate=0.0001
+
+from datetime import datetime
+from pathlib import Path
 
 import hydra
-from omegaconf import DictConfig, OmegaConf
 import torch
-import torch.optim as optim
 import torch.nn as nn
+import torch.optim as optim
+from omegaconf import DictConfig, OmegaConf, open_dict
+from PIL import Image
 from torch.utils.data import DataLoader
 from torchvision import transforms
-from .model import get_pretrained_model
-from pathlib import Path
 from tqdm import tqdm
-import os
-from PIL import Image
-from datetime import datetime
-from src.rice.logger import get_logger
+
 import wandb
-from omegaconf import DictConfig, OmegaConf, open_dict
-import logging
+from src.rice.logger import get_logger
+
+from .model import get_pretrained_model
 
 # Create logger
 log = get_logger(__name__)
@@ -45,7 +47,9 @@ def initialize_wandb(cfg: DictConfig):
     wandb.run.name = safe_cfg.get("experiment_name", "default_experiment")
 
 
-@hydra.main(config_path="../../configs", config_name="config.yaml", version_base=None)
+@hydra.main(
+    config_path="../../configs", config_name="config.yaml", version_base=None
+)
 def train_model(cfg: DictConfig):
     with wandb.init() as run:  # Ensure this is at the top of your function
         # Override the cfg with sweep parameters
@@ -70,7 +74,9 @@ def train_model(cfg: DictConfig):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         model.to(device)
         criterion = nn.CrossEntropyLoss()
-        optimizer = optim.Adam(model.parameters(), lr=cfg.training_conf.learning_rate)
+        optimizer = optim.Adam(
+            model.parameters(), lr=cfg.training_conf.learning_rate
+        )
 
         # Training loop
         for epoch in range(cfg.training_conf.num_epochs):
@@ -81,7 +87,9 @@ def train_model(cfg: DictConfig):
             correct = 0
 
             for images, labels in tqdm(
-                train_loader, desc=f"Epoch {epoch+1}/{cfg.training_conf.num_epochs}"
+                train_loader,
+                desc=f"Epoch {
+                    epoch + 1}/{cfg.training_conf.num_epochs}",
             ):
                 images, labels = images.to(device), labels.to(device)
 
@@ -115,11 +123,24 @@ def train_model(cfg: DictConfig):
             )
 
             log.info(
-                f"Epoch {epoch+1}: Loss {epoch_loss:.4f}, Accuracy {epoch_accuracy:.2f}%"
+                f"Epoch {epoch + 1}: Loss {epoch_loss:.4f}, "
+                "Accuracy {epoch_accuracy:.2f}%"
             )
 
-            print(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
-            log.info(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
+            print(
+                f"Epoch {
+                    epoch +
+                    1}, Loss: {
+                    running_loss /
+                    len(train_loader)}"
+            )
+            log.info(
+                f"Epoch {
+                    epoch +
+                    1}, Loss: {
+                    running_loss /
+                    len(train_loader)}"
+            )
 
         print("Training complete.")
         log.info("Training complete.")
@@ -135,7 +156,8 @@ def train_model(cfg: DictConfig):
     run_path.mkdir(parents=True, exist_ok=True)
 
     model_path = run_path / "rice_model_learned_parameters.pth"
-    torch.save(model.state_dict(), model_path)  # Saves only the learned parameters
+    # Saves only the learned parameters
+    torch.save(model.state_dict(), model_path)
     print(f"Model state_dict saved as {model_path}")
     log.info(f"Model state_dict saved as {model_path}")
 
@@ -148,9 +170,8 @@ def train_model(cfg: DictConfig):
 def load_data(cfg: DictConfig):
     """Load processed JPG images and optionally limit the number of images."""
     if not Path("data/raw/Rice_Image_Dataset").exists():
-        raise FileNotFoundError(
-            f"Processed data path 'data/raw/Rice_Image_Dataset' does not exist."
-        )
+        string = "'data/raw/Rice_Image_Dataset' does not exist."
+        raise FileNotFoundError(f"{string} ")
 
     transform = transforms.Compose(
         [
@@ -198,7 +219,9 @@ def load_data(cfg: DictConfig):
                 test_labels.append(class_idx)
 
     if not train_data:
-        raise RuntimeError("No training data loaded. Check your processed data folder.")
+        raise RuntimeError(
+            "No training data loaded. Check your processed data folder."
+        )
 
     print("Unique train labels:", set(train_labels))
     log.info(f"Unique train labels: {set(train_labels)}")
@@ -215,7 +238,9 @@ def load_data(cfg: DictConfig):
     # Brug batch_size fra konfigurationen
     return DataLoader(
         train_set, batch_size=cfg.training_conf.batch_size, shuffle=True
-    ), DataLoader(test_set, batch_size=cfg.training_conf.batch_size, shuffle=False)
+    ), DataLoader(
+        test_set, batch_size=cfg.training_conf.batch_size, shuffle=False
+    )
 
 
 def main():
@@ -224,7 +249,8 @@ def main():
 
     # Initialize the sweep with the configuration
     sweep_id = wandb.sweep(
-        OmegaConf.to_container(cfg, resolve=True), project="rice-classification"
+        OmegaConf.to_container(cfg, resolve=True),
+        project="rice-classification",
     )
     wandb.agent(
         sweep_id, function=train_model, count=10

@@ -1,11 +1,12 @@
 # data.py
 from __future__ import annotations
 
-import os
-import requests
 import zipfile
 from pathlib import Path
+
+import requests
 from tqdm import tqdm
+
 
 class RiceDataLoader:
     RAW_DATA_PATH = Path("data/raw")
@@ -16,7 +17,8 @@ class RiceDataLoader:
         self.root_dir = root_dir
 
     def download_dataset(self):
-        """Download the rice dataset zip file with a progress bar if it doesn't already exist."""
+        """Download the rice dataset zip file with
+        a progress bar if it doesn't already exist."""
         if self.ZIP_PATH.exists():
             print("Zip file already exists. Skipping download.")
             return
@@ -25,13 +27,16 @@ class RiceDataLoader:
         response = requests.get(self.DOWNLOAD_URL, stream=True)
         total_size = int(response.headers.get("content-length", 0))
 
-        with open(self.ZIP_PATH, "wb") as f, tqdm(
-            desc="Downloading",
-            total=total_size,
-            unit="B",
-            unit_scale=True,
-            unit_divisor=1024,
-        ) as bar:
+        with (
+            open(self.ZIP_PATH, "wb") as f,
+            tqdm(
+                desc="Downloading",
+                total=total_size,
+                unit="B",
+                unit_scale=True,
+                unit_divisor=1024,
+            ) as bar,
+        ):
             for data in response.iter_content(chunk_size=1024):
                 f.write(data)
                 bar.update(len(data))
@@ -54,6 +59,7 @@ class RiceDataLoader:
         with zipfile.ZipFile(self.ZIP_PATH, "r") as zip_ref:
             zip_ref.extractall(self.RAW_DATA_PATH)
         print("Extraction complete.")
+
 
 if __name__ == "__main__":
     data_loader = RiceDataLoader()
