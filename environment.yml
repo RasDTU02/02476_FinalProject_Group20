@@ -1,7 +1,6 @@
 # environment.yml
-# This file can be used to create an environment using:
+# Use this file to create the Conda environment:
 # $ conda env create -f environment.yml
-# platform: linux-64
 
 name: basic_env
 channels:
@@ -17,8 +16,28 @@ dependencies:
   - pillow
   - omegaconf
   - pip
-  - wandb
+  - pandas
+  - numpy
+  - scikit-learn
+  - scipy
+  - statsmodels
+  - matplotlib
+  - pytest
+  - pytest-cov
   - fastapi
+  - uvicorn
+  - pytorch_lightning
+  - jinja2
+  - protobuf
+  - pydantic
   - pip:
       - typer
       - hydra-core
+      - wandb
+      - evidently
+      - litestar
+      - litestar-htmx
+      - rich
+      - plotly
+      - onnxruntime
+      - python-dotenv
