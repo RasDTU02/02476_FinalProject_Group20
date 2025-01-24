@@ -558,7 +558,7 @@ It was not possible for our model to be utilized in the cloud. The reason is due
 >
 > Answer:
 
-We implemented a drift detection service using Evidently. We simulated data drift by modifying our test dataset, introducing artificial changes to simulate real-world scenarios. This was integrated into our project to monitor data drift over time, ensuring our model's performance remains consistent despite changing data patterns. We achieved this by running a script that compares our reference training data with the modified test data, generating a report that highlights any drift. This service helps us determine when model retraining might be necessary, enhancing our MLOps pipeline by providing proactive maintenance cues.
+We implemented a drift detection service using Evidently. We simulated data drift by modifying our test dataset, introducing artificial changes to simulate real-world scenarios. This was integrated into our project to monitor data drift over time, ensuring our model's performance remains consistent despite changing data patterns. We achieved this by running 'data_drift.py' that compares our reference training data with the modified test data, generating a report that highlights any drift. This service helps us determine when model retraining might be necessary, enhancing our MLOps pipeline by providing proactive maintenance cues.
 
 ### Question 29
 
