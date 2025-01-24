@@ -56,8 +56,8 @@ will check the repositories and the code to verify your answers.
 * [x] Add a model to `model.py` and a training procedure to `train.py` and get that running (M6)
 * [ ] Remember to fill out the `requirements.txt` and `requirements_dev.txt` file with whatever dependencies that you
     are using (M2+M6) # gør vi til sidst.
-* [ ] Remember to comply with good coding practices (`pep8`) while doing the project (M7) # gør vi til sidst.
-* [ ] Do a bit of code typing and remember to document essential parts of your code (M7) # Gør vi til sidst
+* [x] Remember to comply with good coding practices (`pep8`) while doing the project (M7) # gør vi til sidst.
+* [x] Do a bit of code typing and remember to document essential parts of your code (M7) # Gør vi til sidst
 * [x] Setup version control for your data or part of your data (M8)
 * [x] Add command line interfaces and project commands to your code where it makes sense (M9) ()
 * [x] Construct one or multiple docker files for your code (M10)
