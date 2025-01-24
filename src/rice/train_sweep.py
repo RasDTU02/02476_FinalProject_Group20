@@ -14,13 +14,10 @@ from torchvision import transforms
 from .model import get_pretrained_model
 from pathlib import Path
 from tqdm import tqdm
-import os
 from PIL import Image
 from datetime import datetime
 from src.rice.logger import get_logger
 import wandb
-from omegaconf import DictConfig, OmegaConf, open_dict
-import logging
 
 # Create logger
 log = get_logger(__name__)

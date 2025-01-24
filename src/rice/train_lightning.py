@@ -13,7 +13,6 @@ from pathlib import Path
 from datetime import datetime
 from PIL import Image
 
-from logger import get_logger
 from model import get_pretrained_model
 
 

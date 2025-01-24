@@ -1,3 +1,4 @@
+# data_drift.py
 import pandas as pd
 from pathlib import Path
 from evidently.report import Report
@@ -57,7 +58,7 @@ def create_current_data():
         for i in tqdm(range(num_predictions), desc="Simulating Predictions"):
             # Simulating time
             time.sleep(0.1)  # Simulate some delay to see the progress bar in action
-            time = pd.Timestamp.now()
+            current_time = pd.Timestamp.now()  # Changed from 'time' to 'current_time'
             
             # Simulating image paths
             image_path = f'data/raw/Rice_Image_Dataset/Class_{i % 5}/rice_image_{i}.jpg'
@@ -66,7 +67,7 @@ def create_current_data():
             prediction = random.randint(0, 4)  # Assuming 5 classes for rice types
             
             predictions.append({
-                'time': time,
+                'time': current_time,  # Changed from 'time' to 'current_time'
                 'image_path': image_path,
                 'prediction': prediction
             })

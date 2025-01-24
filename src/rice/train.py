@@ -15,14 +15,11 @@ from torchvision import transforms
 from .model import get_pretrained_model
 from pathlib import Path
 from tqdm import tqdm
-import os
 from PIL import Image
 from datetime import datetime
 from .logger import get_logger
 import wandb
 from torch.profiler import profile, record_function, ProfilerActivity
-
-import logging
 
 # Create logger
 log = get_logger(__name__)
@@ -146,7 +143,7 @@ def train_model(cfg: DictConfig):
 def load_data(cfg: DictConfig):
     """Load processed JPG images and optionally limit the number of images based on sample_ratio and max_images."""
     if not Path("data/raw/Rice_Image_Dataset").exists():
-        raise FileNotFoundError(f"Processed data path 'data/raw/Rice_Image_Dataset' does not exist.")
+        raise FileNotFoundError("Processed data path 'data/raw/Rice_Image_Dataset' does not exist.")
 
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
