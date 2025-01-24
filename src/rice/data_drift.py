@@ -1,11 +1,13 @@
 # data_drift.py
-import pandas as pd
-from pathlib import Path
-from evidently.report import Report
-from evidently.metric_preset import DataDriftPreset, DataQualityPreset, TargetDriftPreset
-from evidently import ColumnMapping
 import random
 import time
+from pathlib import Path
+
+import pandas as pd
+from evidently import ColumnMapping
+from evidently.metric_preset import (DataDriftPreset, DataQualityPreset,
+                                     TargetDriftPreset)
+from evidently.report import Report
 from tqdm import tqdm
 
 # Assume the script runs from src/rice/

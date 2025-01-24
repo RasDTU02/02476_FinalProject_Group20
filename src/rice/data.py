@@ -1,13 +1,13 @@
 # data.py
 from __future__ import annotations
 
-import requests
 import zipfile
 from pathlib import Path
 
+import pandas as pd
 import requests
 from tqdm import tqdm
-import pandas as pd
+
 
 class RiceDataLoader:
     RAW_DATA_PATH = Path("data/raw")

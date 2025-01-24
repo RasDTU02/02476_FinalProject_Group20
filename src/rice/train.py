@@ -21,11 +21,10 @@ from torch.profiler import ProfilerActivity, profile, record_function
 from torch.utils.data import DataLoader
 from torchvision import transforms
 from tqdm import tqdm
-from PIL import Image
-from datetime import datetime
-from .logger import get_logger
+
 import wandb
-from torch.profiler import profile, record_function, ProfilerActivity
+
+from .logger import get_logger
 
 # Create logger
 log = get_logger(__name__)

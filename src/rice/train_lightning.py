@@ -6,7 +6,6 @@ import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 import torch.optim as optim
-
 from model import get_pretrained_model
 from omegaconf import DictConfig, OmegaConf
 from PIL import Image
