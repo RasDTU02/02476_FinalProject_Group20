@@ -64,9 +64,9 @@ will check the repositories and the code to verify your answers.
 * [x] Build the docker files locally and make sure they work as intended (M10)
 * [x] Write one or multiple configurations files for your experiments (M11)
 * [x] Used Hydra to load the configurations and manage your hyperparameters (M11)
-* [ ] Use profiling to optimize your code (M12) BJØRN
-* [x] Use logging to log important events in your code (M14) BJØRN (samme output-mapper)
-* [ ] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14) BJØRN
+* [x] Use profiling to optimize your code (M12)
+* [x] Use logging to log important events in your code (M14)
+* [x] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14)
 * [x] Consider running a hyperparameter optimization sweep (M14)
 * [x] Use PyTorch-lightning (if applicable) to reduce the amount of boilerplate in your code (M15)
 
@@ -387,7 +387,7 @@ Lastly, the model also contained a seed, such that the model produced determinis
 >
 > Answer:
 
---- question 16 fill here ---
+We used different methods. First and foremost, we could often tell from the error code what was wrong, and then we went into the code and changed what was necessary. Additionally, we used the good old 'print'. We tried with loggers, but it was a new way for us to use them, so it has also been with the support of ChatGPT and Grok – these two language models have generally been a great help. We used profiling and have implemented it, but it was also sparingly, as we didn't have much experience with it but we could definitely see the potential of it! Therefore, next time when we have more time, we would absolutely use it on our project. We tried also using inline breakpoints a little, but this hasn't been a major necessity for us.
 
 ## Working in the cloud
 

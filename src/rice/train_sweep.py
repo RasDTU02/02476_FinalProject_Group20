@@ -18,11 +18,10 @@ from PIL import Image
 from torch.utils.data import DataLoader
 from torchvision import transforms
 from tqdm import tqdm
-
-import wandb
+from PIL import Image
+from datetime import datetime
 from src.rice.logger import get_logger
-
-from .model import get_pretrained_model
+import wandb
 
 # Create logger
 log = get_logger(__name__)
