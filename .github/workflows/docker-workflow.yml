@@ -2,9 +2,19 @@ name: Dockerfile Test
 
 on:
   push:
+    paths:
+      - 'Dockerfile'
+      - 'requirements.txt'
+      - 'src/**'
+      - 'tests/**'
     branches:
       - main
   pull_request:
+    paths:
+      - 'Dockerfile'
+      - 'requirements.txt'
+      - 'src/**'
+      - 'tests/**'
     branches:
       - main
 

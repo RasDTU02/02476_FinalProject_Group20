@@ -2,6 +2,10 @@ name: API Tests
 
 on:
   push:
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'requirements.txt'
     branches:
       - main
   pull_request:
