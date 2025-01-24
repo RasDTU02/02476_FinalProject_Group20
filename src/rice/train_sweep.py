@@ -21,6 +21,7 @@ from tqdm import tqdm
 
 import wandb
 from src.rice.logger import get_logger
+from src.rice.model import get_pretrained_model
 
 # Create logger
 log = get_logger(__name__)
