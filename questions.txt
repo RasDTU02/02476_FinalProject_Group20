@@ -12,7 +12,7 @@
 [x] Question 12
 [x] Question 13
 [x] Question 14 RASMUS
-[ ] Question 15 RASMUS
+[x] Question 15 RASMUS
 [x] Question 16
 [x] Question 22
 [ ] Question 23 ALEXANDER

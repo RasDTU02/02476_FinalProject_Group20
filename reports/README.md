@@ -356,8 +356,15 @@ Lastly, the model also contained a seed, such that the model produced determinis
 > *As seen in the second image we are also tracking ... and ...*
 >
 > Answer:
+```markdown
+![my_image](figures/sweep_graph.png)
+```
 
---- question 14 fill here ---
+From the figure above, the wandb run of the sweep for the hyperparameters can be seen. Here, the epochs, running accuracy, epoch_loss, epoch_accuracy and batch_loss can all be seen in different plots. When initializing the different experiments, there has been a problem in overwriting the experiment name, and thus all the lines are called "default_experiment". For this reason, it has to be seen from the plot what the values are, and the specific experiment run does not contain the correct name.
+
+Though from the plots, it can be seen that red line, which has the most epochs, is also the one which converges to a low accuracy the fastest. It can be seen that the lower the epoch size is, the slower the lines converge towards a global minimum or maximum.
+
+It would be sufficient to run different experiments and show the graphs here, but due to the problem of the overwriting of names, it was problematic to show the curves of the different results at the same time, and this would lead to confusion. For further investigation into the different experiments, it would be sufficient to run the experiment, and investigate the log files and output to see how well it performed, instead of using wandb
 
 ### Question 15
 
@@ -371,8 +378,9 @@ Lastly, the model also contained a seed, such that the model produced determinis
 > *training docker image: `docker run trainer:latest lr=1e-3 batch_size=64`. Link to docker file: <weblink>*
 >
 > Answer:
+For this project, a dockerfile was created to make a containerized application of running the entire pipeline with the default setting. The idea behind this dockerfile is to show how to model works, and what different proccesses are being executed. The default settings contain a 2 epoch training, and storing of the different logs for the performance of the model. The dockerfile also stored the model as a .pth file, such that the model can be reused.
 
---- question 15 fill here ---
+To run the dockerfile, the docker needs to be built by running "docker build -t rice-classifier .". After this is done, you can execute the command "docker run rice-classifier". This will initialize and run the model.
 
 ### Question 16
 
@@ -575,7 +583,15 @@ It was not possible for our model to be utilized in the cloud. The reason is due
 >
 > Answer:
 
---- question 29 fill here ---
+This diagram shows the different python files, and how they are structured in order to collectively run all the different parts in the cli.py file. The different python files show how the code is structured, in order to make it possible to make the different parameter configurations. To do this, it was important to structure the code in segments in such a way that it was customizable to implement experiments and such. Furthermore, the diagram shows how the different iterations are being ran through GitHub and how continious integration and pre-commit is used to control the push of the code to the GitHub repository.
+
+Through this structure of the repository, it was possible to make a system that showed an effective way to utilize and initiate the system. The steps shown in this diagram is the overall structure of the project, and provides the framework for our project. Additional details in this project are not shown here, because the level of complexity is limited in this diagram.
+
+The main part of this project is the overall folder structure, which is difficult to see and examine through a diagram. For a deeper understand of this, it would be sufficient to look into the project files for a more clear overview.
+
+```markdown
+![my_image](figures/graph_final.png)
+```
 
 ### Question 30
 
