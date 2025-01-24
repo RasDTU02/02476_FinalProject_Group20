@@ -358,9 +358,9 @@ Lastly, the model also contained a seed, such that the model produced determinis
 > *As seen in the second image we are also tracking ... and ...*
 >
 > Answer:
-```markdown
+
 ![my_image](figures/sweep_graph.png)
-```
+
 
 From the figure above, the wandb run of the sweep for the hyperparameters can be seen. Here, the epochs, running accuracy, epoch_loss, epoch_accuracy and batch_loss can all be seen in different plots. When initializing the different experiments, there has been a problem in overwriting the experiment name, and thus all the lines are called "default_experiment". For this reason, it has to be seen from the plot what the values are, and the specific experiment run does not contain the correct name.
 
@@ -601,9 +601,9 @@ Through this structure of the repository, it was possible to make a system that 
 
 The main part of this project is the overall folder structure, which is difficult to see and examine through a diagram. For a deeper understand of this, it would be sufficient to look into the project files for a more clear overview.
 
-```markdown
+
 ![my_image](figures/graph_final.png)
-```
+
 
 ### Question 30
 
