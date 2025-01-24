@@ -1,26 +1,35 @@
 import torch
-from model import get_pretrained_model  # Adjust to your model's function or class
+import os
+from torchvision.models import resnet18  # Update if you are using a different model
 
-MODEL_PATH = "models/model.pth"
-ONNX_PATH = "models/model.onnx"
+# Model and ONNX paths
+MODEL_PATH = "models/20250123_232456/rice_model_full.pth"
+ONNX_PATH = "models/optimized_rice_model.onnx"
 
-def export_to_onnx():
-    """Export PyTorch model to ONNX format."""
-    model = get_pretrained_model(num_classes=5)  # Adjust the number of classes
-    model.load_state_dict(torch.load(MODEL_PATH, map_location=torch.device("cpu")))
+# Define class names
+CLASS_NAMES = ["Arborio", "Basmati", "Ipsala", "Jasmine", "Karacadag"]
+
+# Load the PyTorch model
+def load_model(model_path):
+    model = torch.load(model_path, map_location=torch.device("cpu"))
     model.eval()
+    return model
 
-    dummy_input = torch.randn(1, 3, 128, 128)  # Adjust dimensions
+# Export the model to ONNX
+def export_to_onnx(model, onnx_path):
+    dummy_input = torch.randn(1, 3, 224, 224)  # Dummy input to match model input shape
     torch.onnx.export(
         model,
         dummy_input,
-        ONNX_PATH,
+        onnx_path,
+        export_params=True,
+        opset_version=11,
         input_names=["input"],
         output_names=["output"],
         dynamic_axes={"input": {0: "batch_size"}, "output": {0: "batch_size"}},
-        opset_version=11,
     )
-    print(f"Model exported to ONNX at {ONNX_PATH}")
+    print(f"Model exported to {onnx_path}")
 
 if __name__ == "__main__":
-    export_to_onnx()
+    model = load_model(MODEL_PATH)
+    export_to_onnx(model, ONNX_PATH)
