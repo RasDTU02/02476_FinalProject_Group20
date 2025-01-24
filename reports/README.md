@@ -86,10 +86,10 @@ will check the repositories and the code to verify your answers.
 * [ ] Get your model training in GCP using either the Engine or Vertex AI (M21)
 * [x] Create a FastAPI application that can do inference using your model (M22) ALEXANDER
 * [ ] Deploy your model in GCP using either Functions or Run as the backend (M23)
-* [x] Write API tests for your application and setup continues integration for these (M24) ALEXANDER
+* [ ] Write API tests for your application and setup continues integration for these (M24) ALEXANDER
 * [ ] Load test your application (M24) ALEXANDER
-* [x] Create a more specialized ML-deployment API using either ONNX or BentoML, or both (M25) ALEXANDER
-* [x] Create a frontend for your API (M26) ALEXANDER
+* [ ] Create a more specialized ML-deployment API using either ONNX or BentoML, or both (M25) ALEXANDER
+* [ ] Create a frontend for your API (M26) ALEXANDER
 
 ### Week 3
 
