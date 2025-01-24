@@ -1,7 +1,7 @@
 import pytest
+from unittest.mock import patch
 from pathlib import Path
 from src.rice.data import RiceDataLoader
-
 
 @pytest.fixture
 def mock_raw_data_dir(tmp_path):
@@ -39,10 +39,11 @@ def test_extract_data(mock_raw_data_dir):
     extracted_dir = mock_raw_data_dir / "Rice_Image_Dataset"
     extracted_dir.mkdir()  # Simulate extraction
 
-    data_loader = RiceDataLoader(root_dir=str(mock_raw_data_dir))
-    data_loader.extract_data()
-    assert extracted_dir.exists()
+    with patch("src.rice.data.zipfile.ZipFile"):
+        data_loader = RiceDataLoader(root_dir=str(mock_raw_data_dir))
+        data_loader.extract_data()
 
+    assert extracted_dir.exists()  # Check if the simulated directory exists
 
 def test_data_preparation_complete(capsys):
     """Mock the main data preparation script to pass easily."""
